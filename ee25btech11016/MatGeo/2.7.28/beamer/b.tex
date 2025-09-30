@@ -1,0 +1,275 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+
+\usetheme{Madrid}
+\usecolortheme{default}
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+\usepackage{txfonts}
+\usepackage{tkz-euclide}
+\usepackage{listings}
+\usepackage{adjustbox}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{gvv}
+\usepackage{lmodern}
+\usepackage{circuitikz}
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+\lstset{
+  language=Python,
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  literate={λ}{{$\lambda$}}1
+}
+
+\setbeamertemplate{page number in head/foot}[totalframenumber]
+
+\usepackage{tcolorbox}
+\tcbuselibrary{minted,breakable,xparse,skins}
+
+\definecolor{bg}{gray}{0.95}
+\DeclareTCBListing{mintedbox}{O{}m!O{}}{%
+  breakable=true,
+  listing engine=minted,
+  listing only,
+  minted language=#2,
+  minted style=default,
+  minted options={%
+    linenos,
+    gobble=0,
+    breaklines=true,
+    breakafter=,,
+    fontsize=\small,
+    numbersep=8pt,
+    #1},
+  boxsep=0pt,
+  left skip=0pt,
+  right skip=0pt,
+  left=25pt,
+  right=0pt,
+  top=3pt,
+  bottom=3pt,
+  arc=5pt,
+  leftrule=0pt,
+  rightrule=0pt,
+  bottomrule=2pt,
+  toprule=2pt,
+  colback=bg,
+  colframe=orange!70,
+  enhanced,
+  overlay={%
+    \begin{tcbclipinterior}
+    \fill[orange!20!white] (frame.south west) rectangle ([xshift=20pt]frame.north west);
+    \end{tcbclipinterior}},
+  #3,
+}
+\lstset{
+    language=C,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    stringstyle=\color{orange},
+    commentstyle=\color{green!60!black},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    breaklines=true,
+    showstringspaces=false,
+}
+\begin{document}
+
+\title 
+{2.7.28}
+\date{September 30, 2025}
+
+\author 
+{Taraka Abhinav - EE25BTECH11016}
+
+\frame{\titlepage}
+
+\begin{frame}{Question}
+\[
+\text{Find the area of the triangle whose vertices are }\\ \\
+A(2,3),\; B(3,5),\; C(4,4).
+\]
+\end{frame}
+
+\begin{frame}{The vertices of a triangle}
+\begin{table}[H]    
+  \centering
+  \input{beamer/tables/table}
+  \caption{Vectors}
+  \label{Answers}
+\end{table}
+\end{frame}
+
+\begin{frame}{The sides of the triangle }
+\begin{align}
+(\vec{A}-\vec{B})
+&= \begin{bmatrix} 2 \\ 3 \\ 0 \end{bmatrix}
+  - \begin{bmatrix} 3 \\ 5 \\ 0 \end{bmatrix}
+= \begin{bmatrix} -1 \\ -2 \\ 0 \end{bmatrix},
+\label{eq:AB} \\[6pt]
+(\vec{A}-\vec{C})
+&= \begin{bmatrix} 2 \\ 3 \\ 0 \end{bmatrix}
+  - \begin{bmatrix} 4 \\ 4 \\ 0 \end{bmatrix}
+= \begin{bmatrix} -2 \\ -1 \\ 0 \end{bmatrix}.
+\label{eq:AC}
+\end{align}
+\end{frame}
+
+\begin{frame}{Cross product}
+Using \eqref{eq:AB} and \eqref{eq:AC} The magnitude of the cross product is
+\begin{align}
+\big\lVert (\vec{A}-\vec{B}) \times (\vec{A}-\vec{C}) \big\rVert
+&= \sqrt{0^2 + 0^2 + (-3)^2} = 3.
+\label{eq:norm}
+\end{align}
+\end{frame}
+
+\begin{frame}{Area of triangle}
+Therefore the area of triangle \(ABC\) is
+\begin{align}
+\text{ar}(\triangle ABC)
+&= \tfrac{1}{2}\,\big\lVert (\vec{A}-\vec{B}) \times (\vec{A}-\vec{C}) \big\rVert
+= \tfrac{1}{2}\times 3 = 1.5.
+\label{eq:area}
+\end{align}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{C Code}
+    \begin{lstlisting}
+#include <stdio.h>
+#include <math.h>
+
+// Function to compute cross product magnitude in 3D
+double area_triangle(double A[3], double B[3], double C[3]) {
+    double AB[3] = {A[0] - B[0], A[1] - B[1], 0};
+    double AC[3] = {A[0] - C[0], A[1] - C[1], 0};
+    double cross[3] = {
+        AB[1]*AC[2] - AB[2]*AC[1],
+        AB[2]*AC[0] - AB[0]*AC[2],
+        AB[0]*AC[1] - AB[1]*AC[0]
+    };
+    double mag = sqrt(cross[0]*cross[0] + cross[1]*cross[1] + cross[2]*cross[2]);
+    return 0.5 * mag;
+}
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{C Code - Main}
+    \begin{lstlisting}
+int main() {
+    double A[3] = {2,3,0};
+    double B[3] = {3,5,0};
+    double C[3] = {4,4,0};
+
+    double area = area_triangle(A,B,C);
+    printf("Area of triangle = %.2f\n", area);
+
+    FILE *fp = fopen("triangle_points.txt","w");
+    fprintf(fp,"%f %f\n", A[0], A[1]);
+    fprintf(fp,"%f %f\n", B[0], B[1]);
+    fprintf(fp,"%f %f\n", C[0], C[1]);
+    fprintf(fp,"%f %f\n", A[0], A[1]); // close loop
+    fclose(fp);
+
+    return 0;
+}
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Python + C Code}
+    \begin{lstlisting}[language=Python]
+import ctypes
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Load compiled C library
+# Compile C code first: gcc -shared -o triangle_area.so -fPIC your_c_code.c
+lib = ctypes.CDLL("./triangle_area.so")
+
+# Define argument and return types
+lib.area_triangle.argtypes = [ctypes.POINTER(ctypes.c_double),
+                              ctypes.POINTER(ctypes.c_double),
+                              ctypes.POINTER(ctypes.c_double)]
+lib.area_triangle.restype = ctypes.c_double
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Python + C Code}
+    \begin{lstlisting}[language=Python]
+# Define points
+A = (ctypes.c_double * 3)(2,3,0)
+B = (ctypes.c_double * 3)(3,5,0)
+C = (ctypes.c_double * 3)(4,4,0)
+
+# Call C function
+area = lib.area_triangle(A,B,C)
+print("Area of triangle =", area)
+
+# Plot triangle
+points = np.array([[2,3],[3,5],[4,4],[2,3]])
+plt.plot(points[:,0], points[:,1], 'bo-')
+for i, txt in enumerate(['A','B','C']):
+    plt.text(points[i,0]+0.1, points[i,1]+0.1, txt, fontsize=12)
+plt.title(f"Triangle ABC (Area = {area:.2f})")
+plt.xlabel("x")
+plt.ylabel("y")
+plt.grid(True)
+plt.axis("equal")
+plt.show()
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Native Python Code}
+    \begin{lstlisting}[language=Python]
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Define points
+A = np.array([2,3,0])
+B = np.array([3,5,0])
+C = np.array([4,4,0])
+
+# Vectors
+AB = A - B
+AC = A - C
+
+# Cross product & area
+cross = np.cross(AB,AC)
+area = 0.5 * np.linalg.norm(cross)
+print("Area of triangle =", area)
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Native Python Code - Plot}
+    \begin{lstlisting}[language=Python]
+# Plot triangle
+points = np.array([[2,3],[3,5],[4,4],[2,3]])
+plt.plot(points[:,0], points[:,1], 'ro-')
+for i, txt in enumerate(['A','B','C']):
+    plt.text(points[i,0]+0.1, points[i,1]+0.1, txt, fontsize=12)
+plt.title(f"Triangle ABC (Area = {area:.2f})")
+plt.xlabel("x")
+plt.ylabel("y")
+plt.grid(True)
+plt.axis("equal")
+plt.show()
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}{Plot}
+    \centering
+    % Ensure Fig1.png is in the same directory or in a /Figs subdirectory
+    \includegraphics[width=\columnwidth, height=0.8\textheight, keepaspectratio]{beamer/figs/Figure_1.png}   
+\end{frame}
+
+\end{document}
