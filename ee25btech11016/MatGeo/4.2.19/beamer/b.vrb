@@ -1,0 +1,20 @@
+\frametitle{Python Plotting Code}
+    \begin{lstlisting}[language=Python]
+# Plot the line
+x_vals = np.linspace(-2, 4, 100)
+y_vals = -x_vals + 2
+plt.plot(x_vals, y_vals, 'g', label="Line y=-x+2")
+
+# Show vectors at point (1,1) on the line
+point = np.array([1, 1])
+plt.quiver(*point, n[0], n[1], angles="xy",
+           scale_units="xy", scale=1, color='r',
+           label="Normal Vector n")
+plt.quiver(*point, m[0], m[1], angles="xy",
+           scale_units="xy", scale=1, color='b',
+           label="Direction Vector m")
+
+plt.grid(True); plt.gca().set_aspect('equal')
+plt.legend(); plt.title("Line with Vectors")
+plt.savefig("figs/Figure_1.png"); plt.show()
+    \end{lstlisting}

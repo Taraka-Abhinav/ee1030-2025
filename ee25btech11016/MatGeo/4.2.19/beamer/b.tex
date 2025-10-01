@@ -1,0 +1,187 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+
+\usetheme{Madrid}
+\usecolortheme{default}
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+\usepackage{txfonts}
+\usepackage{tkz-euclide}
+\usepackage{listings}
+\usepackage{adjustbox}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{gvv} 
+\usepackage{lmodern}
+\usepackage{circuitikz}
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{float}
+
+
+\lstset{
+  language=Python,
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  literate={λ}{{$\lambda$}}1
+}
+
+\setbeamertemplate{page number in head/foot}[totalframenumber]
+
+\usepackage{tcolorbox}
+\tcbuselibrary{minted,breakable,xparse,skins}
+
+\definecolor{bg}{gray}{0.95}
+\lstset{
+    language=C,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    stringstyle=\color{orange},
+    commentstyle=\color{green!60!black},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    breaklines=true,
+    showstringspaces=false,
+}
+\begin{document}
+
+\title 
+{4.2.19: Direction and Normal Vectors}
+\date{October 1, 2025}
+
+\author 
+{Taraka Abhinav - EE25BTECH11016}
+
+\frame{\titlepage}
+
+\begin{frame}{Question}
+Find the direction and normal vectors of the following line:
+\[ y = -x + 2 \]
+\end{frame}
+
+\begin{frame}{Step 1: Standard and Vector Form}
+First, we rewrite the line equation in the standard form $ax + by = c$.
+\begin{align}
+    x + y = 2
+\end{align}
+The vector form of a line is $\vec{n}^T\vec{x} = c$, where $\vec{x} = \myvec{x \\ y}$ and $\vec{n}$ is the normal vector.
+\end{frame}
+
+\begin{frame}{Step 2: Finding the Normal Vector}
+By comparing the standard form $x + y = 2$ with the vector form $\vec{n}^T\vec{x} = c$, we can directly identify the components of the normal vector's transpose.
+\begin{align}
+    \vec{n}^T = \myvec{1 & 1}
+\end{align}
+Therefore, the normal vector $\vec{n}$ is the column vector:
+\begin{align}
+    \vec{n} = \myvec{1 \\ 1}
+\end{align}
+\end{frame}
+
+\begin{frame}{Step 3: Finding the Direction Vector}
+The direction vector, $\vec{m}$, is perpendicular to the normal vector, $\vec{n}$. This means their dot product is zero ($\vec{n}^T\vec{m} = 0$).
+
+For a normal vector $\vec{n} = \myvec{a \\ b}$, a perpendicular vector is $\vec{m} = \myvec{b \\ -a}$.
+\begin{align}
+    \vec{m} = \myvec{1 \\ -1}
+\end{align}
+Verification:
+\begin{align}
+    \vec{n}^T\vec{m} = \myvec{1 & 1}\myvec{1 \\ -1} = (1)(1) + (1)(-1) = 0
+\end{align}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{C Code}
+    \begin{lstlisting}
+/* This C code is intended to be compiled into a
+ shared library (.so) for the Python+C example.
+ Compile with:
+ gcc -shared -o line_vectors.so -fPIC line_vectors.c
+*/
+#include <stdio.h>
+
+void get_vectors(double n[2], double m[2]) {
+    // Equation: x + y = 2
+    n[0] = 1.0; // Normal vector
+    n[1] = 1.0;
+    
+    m[0] = 1.0; // Direction vector
+    m[1] = -1.0;
+}
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Python + C Code}
+    \begin{lstlisting}[language=Python]
+import ctypes
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Load shared library
+lib = ctypes.CDLL("./line_vectors.so")
+
+# Define C function signature
+lib.get_vectors.argtypes = [ctypes.POINTER(ctypes.c_double),
+                           ctypes.POINTER(ctypes.c_double)]
+
+def get_vectors():
+    n = (ctypes.c_double * 2)()
+    m = (ctypes.c_double * 2)()
+    lib.get_vectors(n, m)
+    return np.array([n[0], n[1]]), np.array([m[0], m[1]])
+
+# Call C function
+n, m = get_vectors()
+print("Normal vector:", n)
+print("Direction vector:", m)
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Pure Python Code}
+    \begin{lstlisting}[language=Python]
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Given line: y = -x + 2 or x + y = 2
+n = np.array([1, 1])   # Normal vector
+m = np.array([1, -1])  # Direction vector
+
+print("Normal vector =", n)
+print("Direction vector =", m)
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Python Plotting Code}
+    \begin{lstlisting}[language=Python]
+# Plot the line
+x_vals = np.linspace(-2, 4, 100)
+y_vals = -x_vals + 2
+plt.plot(x_vals, y_vals, 'g', label="Line y=-x+2")
+
+# Show vectors at point (1,1) on the line
+point = np.array([1, 1])
+plt.quiver(*point, n[0], n[1], angles="xy", 
+           scale_units="xy", scale=1, color='r', 
+           label="Normal Vector n")
+plt.quiver(*point, m[0], m[1], angles="xy", 
+           scale_units="xy", scale=1, color='b', 
+           label="Direction Vector m")
+
+plt.grid(True); plt.gca().set_aspect('equal')
+plt.legend(); plt.title("Line with Vectors")
+plt.savefig("figs/Figure_1.png"); plt.show()
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}{Plot}
+    \frametitle{Plot of the Line and its Vectors}
+    \centering
+    \includegraphics[width=0.8\textwidth]{figs/Figure_1.png}   
+\end{frame}
+
+\end{document}
