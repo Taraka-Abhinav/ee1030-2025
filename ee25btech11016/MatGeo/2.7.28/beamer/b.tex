@@ -10,7 +10,7 @@
 \usepackage{adjustbox}
 \usepackage{array}
 \usepackage{tabularx}
-\usepackage{gvv} % This package provides the \myvec command
+\usepackage{gvv} 
 \usepackage{lmodern}
 \usepackage{circuitikz}
 \usepackage{tikz}
@@ -47,7 +47,7 @@
 \begin{document}
 
 \title 
-{2.7.28}
+{2.7.28: Area of a Triangle}
 \date{October 1, 2025}
 
 \author 
@@ -56,89 +56,55 @@
 \frame{\titlepage}
 
 \begin{frame}{Question}
-\[
-\text{Find the area of the triangle whose vertices are }\\ \\
-A(2,3),\; B(3,5),\; C(4,4).
-\]
+Find the area of the triangle whose vertices are $A(2,3)$, $B(3,5)$, and $C(4,4)$.
 \end{frame}
 
-\begin{frame}{The Vertices as Vectors}
-\begin{table}[H]    
-  \centering
-  \begin{tabular}{|c|c|}
-  \hline
-  \textbf{Point} & \textbf{Vector} \\
-  \hline
-  A & $\myvec{2\\3\\0}$ \\
-  \hline
-  B & $\myvec{3\\5\\0}$ \\
-  \hline
-  C & $\myvec{4\\4\\0}$ \\
-  \hline
-  \end{tabular}
-  \caption{Vectors}
-  \label{Answers}
-\end{table}
+\begin{frame}{Method: Area using Determinant}
+The area of a triangle with vertices $\vec{A}$, $\vec{B}$, and $\vec{C}$ can be found using the formula:
+\[ \text{Area} = \frac{1}{2} \left| \det(\vec{A}-\vec{B}, \vec{A}-\vec{C}) \right| \]
+The given vertices are:
+\[ \vec{A} = \myvec{2 \\ 3}, \quad \vec{B} = \myvec{3 \\ 5}, \quad \vec{C} = \myvec{4 \\ 4} \]
 \end{frame}
 
-\begin{frame}{The Sides of the Triangle}
+\begin{frame}{Step 1: Find the Side Vectors}
+First, we calculate two vectors that form the sides of the triangle.
 \begin{align}
-(\vec{A}-\vec{B})
-&= \myvec{2\\3\\0}
-  - \myvec{3\\5\\0}
-= \myvec{-1\\-2\\0},
-\label{eq:AB} \\[6pt]
-(\vec{A}-\vec{C})
-&= \myvec{2\\3\\0}
-  - \myvec{4\\4\\0}
-= \myvec{-2\\-1\\0}.
-\label{eq:AC}
+    \vec{A}-\vec{B} &= \myvec{2 \\ 3} - \myvec{3 \\ 5} = \myvec{-1 \\ -2} \label{eq:vec_ab} \\
+    \vec{A}-\vec{C} &= \myvec{2 \\ 3} - \myvec{4 \\ 4} = \myvec{-2 \\ -1} \label{eq:vec_ac}
 \end{align}
 \end{frame}
 
-\begin{frame}{Cross Product}
-Using \eqref{eq:AB} and \eqref{eq:AC}, the magnitude of the cross product is
+\begin{frame}{Step 2: Calculate the Determinant}
+Next, we find the determinant of the matrix formed by these two vectors.
 \begin{align}
-\big\lVert (\vec{A}-\vec{B}) \times (\vec{A}-\vec{C}) \big\rVert
-&= \sqrt{0^2 + 0^2 + (-3)^2} = 3.
-\label{eq:norm}
+    \det(\vec{A}-\vec{B}, \vec{A}-\vec{C}) &= \begin{vmatrix} -1 & -2 \\ -2 & -1 \end{vmatrix} \nonumber \\
+    &= (-1)(-1) - (-2)(-2) \nonumber \\
+    &= 1 - 4 = -3 \label{eq:determinant}
 \end{align}
 \end{frame}
 
-\begin{frame}{Area of Triangle}
-Therefore, the area of triangle \(ABC\) is
+\begin{frame}{Step 3: Find the Area}
+The area is half the absolute value of the determinant.
 \begin{align}
-\text{ar}(\triangle ABC)
-&= \tfrac{1}{2}\,\big\lVert (\vec{A}-\vec{B}) \times (\vec{A}-\vec{C}) \big\rVert
-= \tfrac{1}{2}\times 3 = 1.5.
-\label{eq:area}
+    \text{Area} = \frac{1}{2} |-3| = 1.5
 \end{align}
+Thus, the area of the triangle is 1.5 square units.
 \end{frame}
 
 \begin{frame}[fragile]
-    \frametitle{C Code}
+    \frametitle{C Code - Verification (Cross Product)}
     \begin{lstlisting}
 #include <stdio.h>
 #include <math.h>
 
-// Function to compute cross product magnitude in 3D
+// Function to compute area via cross product
 double area_triangle(double A[3], double B[3], double C[3]) {
-    double AB[3] = {A[0] - B[0], A[1] - B[1], 0};
-    double AC[3] = {A[0] - C[0], A[1] - C[1], 0};
-    double cross[3] = {
-        AB[1]*AC[2] - AB[2]*AC[1],
-        AB[2]*AC[0] - AB[0]*AC[2],
-        AB[0]*AC[1] - AB[1]*AC[0]
-    };
-    double mag = sqrt(cross[0]*cross[0] + cross[1]*cross[1] + cross[2]*cross[2]);
-    return 0.5 * mag;
+    double AB[3] = {B[0] - A[0], B[1] - A[1], 0};
+    double AC[3] = {C[0] - A[0], C[1] - A[1], 0};
+    double cross_z = AB[0]*AC[1] - AB[1]*AC[0];
+    return 0.5 * fabs(cross_z);
 }
-    \end{lstlisting}
-\end{frame}
 
-\begin{frame}[fragile]
-    \frametitle{C Code - Main}
-    \begin{lstlisting}
 int main() {
     double A[3] = {2,3,0};
     double B[3] = {3,5,0};
@@ -156,10 +122,9 @@ int main() {
     \begin{lstlisting}[language=Python]
 import ctypes
 import numpy as np
-import matplotlib.pyplot as plt
 
 # Load compiled C library
-# Compile C code first: gcc -shared -o triangle_area.so -fPIC your_c_code.c
+# gcc -shared -o triangle_area.so -fPIC area.c
 lib = ctypes.CDLL("./triangle_area.so")
 
 # Define argument and return types
@@ -167,69 +132,65 @@ lib.area_triangle.argtypes = [ctypes.POINTER(ctypes.c_double),
                               ctypes.POINTER(ctypes.c_double),
                               ctypes.POINTER(ctypes.c_double)]
 lib.area_triangle.restype = ctypes.c_double
-    \end{lstlisting}
-\end{frame}
 
-\begin{frame}[fragile]
-    \frametitle{Python + C Code}
-    \begin{lstlisting}[language=Python]
-# Define points
+# Define points as 3D vectors
 A = (ctypes.c_double * 3)(2,3,0)
 B = (ctypes.c_double * 3)(3,5,0)
 C = (ctypes.c_double * 3)(4,4,0)
 
 # Call C function
 area = lib.area_triangle(A,B,C)
-print("Area of triangle =", area)
-# (Plotting code would follow)
+print(f"Area of triangle = {area:.2f}")
     \end{lstlisting}
 \end{frame}
 
-
 \begin{frame}[fragile]
-    \frametitle{Native Python Code}
+    \frametitle{Pure Python Code}
     \begin{lstlisting}[language=Python]
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Define points
+# Define points as 3D vectors
 A = np.array([2,3,0])
 B = np.array([3,5,0])
 C = np.array([4,4,0])
 
-# Vectors
-AB = A - B
-AC = A - C
+# Form side vectors
+vec_AB = B - A
+vec_AC = C - A
 
 # Cross product & area
-cross = np.cross(AB,AC)
-area = 0.5 * np.linalg.norm(cross)
-print("Area of triangle =", area)
+cross_product = np.cross(vec_AB, vec_AC)
+area = 0.5 * np.linalg.norm(cross_product)
+print(f"Area of triangle = {area:.2f}")
     \end{lstlisting}
 \end{frame}
 
 \begin{frame}[fragile]
-    \frametitle{Native Python Code - Plot}
+    \frametitle{Python Plotting Code}
     \begin{lstlisting}[language=Python]
-# Plot triangle
-points = np.array([[2,3],[3,5],[4,4],[2,3]])
-plt.plot(points[:,0], points[:,1], 'ro-')
-for i, txt in enumerate(['A','B','C']):
-    plt.text(points[i,0]+0.1, points[i,1]+0.1, txt, fontsize=12)
-plt.title(f"Triangle ABC (Area = {area:.2f})")
-plt.xlabel("x")
-plt.ylabel("y")
-plt.grid(True)
-plt.axis("equal")
-plt.savefig("Figs/Fig1.png") # Save the figure
-plt.show()
+# Plot the triangle
+# Slicing [:2] to plot the 2D coordinates
+triangle = np.array([A[:2], B[:2], C[:2], A[:2]])
+plt.plot(triangle[:, 0], triangle[:, 1], 'bo-')
+
+# Add labels
+plt.text(A[0]-0.3, A[1], f'A({A[0]},{A[1]})')
+plt.text(B[0]+0.1, B[1], f'B({B[0]},{B[1]})')
+plt.text(C[0]+0.1, C[1], f'C({C[0]},{C[1]})')
+plt.text(3, 3.5, f'Area = {area:.2f}', color='red')
+
+plt.xlabel("X-axis"); plt.ylabel("Y-axis")
+plt.title("Triangle ABC"); plt.grid(True)
+plt.gca().set_aspect('equal', adjustable='box')
+plt.savefig("figs/Figure_1.png"); plt.show()
     \end{lstlisting}
 \end{frame}
 
 \begin{frame}{Plot}
+    \frametitle{Plot of the Triangle}
     \centering
-    % Ensure Fig1.png is in a /Figs subdirectory
-    \includegraphics[width=\columnwidth, height=0.8\textheight, keepaspectratio]{figs/Figure_1.png}
+    \includegraphics[width=0.8\textwidth]{figs/Figure_1.png}   
 \end{frame}
 
 \end{document}

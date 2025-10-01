@@ -2,16 +2,19 @@
 \let\negthickspace\undefined
 \documentclass[journal]{IEEEtran}
 \usepackage[a5paper, margin=10mm, onecolumn]{geometry}
-\usepackage{tfrupee}
+\usepackage{lmodern} % Ensure lmodern is loaded for pdflatex
+\usepackage{tfrupee} % Include tfrupee package
 
-\setlength{\headheight}{1cm}
-\setlength{\headsep}{0mm}
+\setlength{\headheight}{1cm} % Set the height of the header box
+\setlength{\headsep}{0mm}     % Set the distance between the header box and the top of the text
 
 \usepackage{gvv-book}
+\usepackage{gvv}
 \usepackage{cite}
 \usepackage{amsmath,amssymb,amsfonts,amsthm}
 \usepackage{algorithmic}
 \usepackage{graphicx}
+\graphicspath{{./figs/}}
 \usepackage{textcomp}
 \usepackage{xcolor}
 \usepackage{txfonts}
@@ -20,11 +23,9 @@
 \usepackage{mathtools}
 \usepackage{gensymb}
 \usepackage{comment}
+\usepackage{float}
 \usepackage[breaklinks=true]{hyperref}
 \usepackage{tkz-euclide} 
-\usepackage{listings}
-\usepackage{gvv}                                        
-\usepackage{tikz}
 \def\inputGnumericTable{}                                 
 \usepackage[latin1]{inputenc}                                
 \usepackage{color}                                            
@@ -35,77 +36,54 @@
 \usepackage{hhline}                                           
 \usepackage{ifthen}                                           
 \usepackage{lscape}
+\usepackage{circuitikz}
+\tikzstyle{block} = [rectangle, draw, fill=blue!20, 
+text width=4em, text centered, rounded corners, minimum height=3em]
+\tikzstyle{sum} = [draw, fill=blue!10, circle, minimum size=1cm, node distance=1.5cm]
+\tikzstyle{input} = [coordinate]
+\tikzstyle{output} = [coordinate]
+
+
 \begin{document}
+	
+	\bibliographystyle{IEEEtran}
+	\vspace{3cm}
+	
+	\title{2.7.28}
+	\author{EE25BTECH11016 - Taraka Abhinav}
+	\maketitle
+	{\let\newpage\relax\maketitle}
+	
+	\setlength{\intextsep}{10pt} % Space between text and floats
 
-\bibliographystyle{IEEEtran}
+\textbf{Question:}\\
+Find the area of the triangle whose vertices are $A(2,3)$, $B(3,5)$, and $C(4,4)$.
 
-\title{2.7.28}
-\author{EE25BTECH11016 - Taraka Abhinav}
-{\let\newpage\relax\maketitle}
-
-\renewcommand{\thefigure}{\theenumi}
-\renewcommand{\thetable}{\theenumi}
-\setlength{\intextsep}{10pt}
-
-\numberwithin{figure}{enumi}
-\renewcommand{\thetable}{\theenumi}
-
-\textbf{Question}:\\
-\text{Find the area of the triangle whose vertices are }
-A(2,3),\; B(3,5),\; \text{and } C(4,4).
-
-\solution \\
-\begin{table}[H]
-  \centering
-  \begin{tabular}{|c|c|}
-  \hline
-  \textbf{Point} & \textbf{Vector} \\
-  \hline
-  A & $\myvec{2\\3\\0}$ \\
-  \hline
-  B & $\myvec{3\\5\\0}$ \\
-  \hline
-  C & $\myvec{4\\4\\0}$ \\
-  \hline
-  \end{tabular}
-  \caption{Vectors}
-  \label{Answers}
-\end{table}
-
+\solution\\
+The area of a triangle with vertices $\vec{A}$, $\vec{B}$, and $\vec{C}$ can be calculated using the determinant of the vectors forming two of its sides. The formula is:
+\[ \text{Area} = \frac{1}{2} \left| \det(\vec{A}-\vec{B}, \vec{A}-\vec{C}) \right| \]
+The given vertices are represented by 2D vectors:
+\[ \vec{A} = \myvec{2 \\ 3}, \quad \vec{B} = \myvec{3 \\ 5}, \quad \vec{C} = \myvec{4 \\ 4} \]
+First, we find the two side vectors:
 \begin{align}
-(\vec{A}-\vec{B})
-&= \myvec{2\\3\\0}
-  - \myvec{3\\5\\0}
-= \myvec{-1\\-2\\0},
-\label{eq:AB} \\[6pt]
-(\vec{A}-\vec{C})
-&= \myvec{2\\3\\0}
-  - \myvec{4\\4\\0}
-= \myvec{-2\\-1\\0}.
-\label{eq:AC}
+    \vec{A}-\vec{B} &= \myvec{2 \\ 3} - \myvec{3 \\ 5} = \myvec{-1 \\ -2} \label{eq:vec_ab} \\
+    \vec{A}-\vec{C} &= \myvec{2 \\ 3} - \myvec{4 \\ 4} = \myvec{-2 \\ -1} \label{eq:vec_ac}
 \end{align}
-
-Using \eqref{eq:AB} and \eqref{eq:AC}, the magnitude of the cross product is
+Next, we calculate the determinant of the matrix formed by these two vectors as columns:
 \begin{align}
-\big\lVert (\vec{A}-\vec{B}) \times (\vec{A}-\vec{C}) \big\rVert
-&= \sqrt{0^2 + 0^2 + ((-1)(-1) - (-2)(-2))^2} \nonumber \\
-&= \sqrt{0^2 + 0^2 + (-3)^2} = 3.
-\label{eq:norm}
+    \det(\vec{A}-\vec{B}, \vec{A}-\vec{C}) &= \begin{vmatrix} -1 & -2 \\ -2 & -1 \end{vmatrix} \nonumber \\
+    &= (-1)(-1) - (-2)(-2) \nonumber \\
+    &= 1 - 4 = -3 \label{eq:determinant}
 \end{align}
-
-Therefore the area of triangle \(ABC\) is
+The area is half the absolute value of this determinant:
 \begin{align}
-\text{ar}(\triangle ABC)
-&= \tfrac{1}{2}\,\big\lVert (\vec{A}-\vec{B}) \times (\vec{A}-\vec{C}) \big\rVert
-= \tfrac{1}{2}\times 3 = 1.5.
-\label{eq:area}
+    \text{Area} = \frac{1}{2} |-3| = 1.5
 \end{align}
+Thus, the area of the triangle is 1.5 square units.
 
-      Therefore, \(\displaystyle \text{ar}(\triangle ABC)=1.5\).
 \begin{figure}[H]
     \centering
-    % The user would generate this figure using a plotting tool.
-    \includegraphics[width=0.9\linewidth]{figs/Figure_1.png}
+    \includegraphics[width=0.8\linewidth]{figs/Figure_1.png}
     \label{fig:placeholder}
 \end{figure}
 \end{document}

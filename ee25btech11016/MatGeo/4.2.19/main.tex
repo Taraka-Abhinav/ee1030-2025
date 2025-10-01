@@ -1,0 +1,124 @@
+\let\negmedspace\undefined
+\let\negthickspace\undefined
+\documentclass[journal]{IEEEtran}
+\usepackage[a5paper, margin=10mm, onecolumn]{geometry}
+%\usepackage{lmodern} % Ensure lmodern is loaded for pdflatex
+\usepackage{tfrupee} % Include tfrupee package
+
+\setlength{\headheight}{1cm} % Set the height of the header box
+\setlength{\headsep}{0mm}     % Set the distance between the header box and the top of the text
+
+\usepackage{gvv-book}
+\usepackage{gvv}
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{txfonts}
+\usepackage{listings}
+\usepackage{enumitem}
+\usepackage{mathtools}
+\usepackage{gensymb}
+\usepackage{comment}
+\usepackage[breaklinks=true]{hyperref}
+\usepackage{tkz-euclide}
+\usepackage{listings}
+% \usepackage{gvv}
+\def\inputGnumericTable{}
+\usepackage[latin1]{inputenc}
+\usepackage{color}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{calc}
+\usepackage{multirow}
+\usepackage{hhline}
+\usepackage{ifthen}
+\usepackage{lscape}
+\usepackage{circuitikz}
+\tikzstyle{block} = [rectangle, draw, fill=blue!20, 
+    text width=4em, text centered, rounded corners, minimum height=3em]
+\tikzstyle{sum} = [draw, fill=blue!10, circle, minimum size=1cm, node distance=1.5cm]
+\tikzstyle{input} = [coordinate]
+\tikzstyle{output} = [coordinate]
+
+
+\begin{document}
+
+\bibliographystyle{IEEEtran}
+\vspace{3cm}
+
+\title{4.2.19}
+\author{Gemini Solution}
+\maketitle
+{\let\newpage\relax\maketitle}
+
+\renewcommand{\thefigure}{\theenumi}
+\renewcommand{\thetable}{\theenumi}
+\setlength{\intextsep}{10pt} % Space between text and floats
+
+
+\numberwithin{equation}{enumi}
+\numberwithin{figure}{enumi}
+\renewcommand{\thetable}{\theenumi}
+
+\textbf{Question}:\\
+Find the direction and normal vectors of each of the following lines
+\begin{align}
+y = -x + 2
+\end{align}
+\solution \\
+
+The given line equation can be rewritten in the standard form $ax + by = c$:
+\begin{align}
+x + y = 2
+\end{align}
+
+This equation can be expressed in vector form.\\
+Let
+\begin{align}
+\vec{x} = \myvec{x \\ y}
+\end{align}
+The line equation can be written as:
+\begin{align}
+\vec{n^T}  \vec{x} = c
+\end{align}
+where $\vec{n}$ is the normal vector to the line.
+
+By comparing $x + y = 2$ with the vector form, we can identify:
+\begin{align}
+\vec{n^T} = \myvec{1 & 1}
+\end{align}
+\begin{align}
+c = 2
+\end{align}
+
+From $\vec{n^T}$, we find that the \textbf{normal vector} is:
+\begin{align}
+\vec{n} = \myvec{1 \\ 1}
+\end{align}
+
+The \textbf{direction vector}, $\vec{m}$, of the line is orthogonal to the normal vector $\vec{n}$. This means their dot product is zero, i.e., $\vec{n^T}\vec{m} = 0$.
+
+For a normal vector $\vec{n} = \myvec{a \\ b}$, a direction vector can be $\vec{m} = \myvec{b \\ -a}$.
+So, for our normal vector $\vec{n} = \myvec{1 \\ 1}$, the direction vector is:
+\begin{align}
+\vec{m} = \myvec{1 \\ -1}
+\end{align}
+
+We can verify this with the dot product:
+\begin{align}
+\vec{n^T}\vec{m} = \myvec{1 & 1}\myvec{1 \\ -1} = (1)(1) + (1)(-1) = 0
+\end{align}\\
+
+The normal vector of the line is $\vec{n} = \myvec{1 \\ 1}$.\\
+The direction vector of the line is $\vec{m} = \myvec{1 \\ -1}$.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{figs/Figure_1.png}
+    \label{fig:placeholder}
+\end{figure}
+
+\end{document}
