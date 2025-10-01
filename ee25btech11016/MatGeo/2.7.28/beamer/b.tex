@@ -10,13 +10,15 @@
 \usepackage{adjustbox}
 \usepackage{array}
 \usepackage{tabularx}
-\usepackage{gvv}
+\usepackage{gvv} % This package provides the \myvec command
 \usepackage{lmodern}
 \usepackage{circuitikz}
 \usepackage{tikz}
 \usepackage{graphicx}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
+\usepackage{float}
+
 
 \lstset{
   language=Python,
@@ -31,41 +33,6 @@
 \tcbuselibrary{minted,breakable,xparse,skins}
 
 \definecolor{bg}{gray}{0.95}
-\DeclareTCBListing{mintedbox}{O{}m!O{}}{%
-  breakable=true,
-  listing engine=minted,
-  listing only,
-  minted language=#2,
-  minted style=default,
-  minted options={%
-    linenos,
-    gobble=0,
-    breaklines=true,
-    breakafter=,,
-    fontsize=\small,
-    numbersep=8pt,
-    #1},
-  boxsep=0pt,
-  left skip=0pt,
-  right skip=0pt,
-  left=25pt,
-  right=0pt,
-  top=3pt,
-  bottom=3pt,
-  arc=5pt,
-  leftrule=0pt,
-  rightrule=0pt,
-  bottomrule=2pt,
-  toprule=2pt,
-  colback=bg,
-  colframe=orange!70,
-  enhanced,
-  overlay={%
-    \begin{tcbclipinterior}
-    \fill[orange!20!white] (frame.south west) rectangle ([xshift=20pt]frame.north west);
-    \end{tcbclipinterior}},
-  #3,
-}
 \lstset{
     language=C,
     basicstyle=\ttfamily\small,
@@ -81,7 +48,7 @@
 
 \title 
 {2.7.28}
-\date{September 30, 2025}
+\date{October 1, 2025}
 
 \author 
 {Taraka Abhinav - EE25BTECH11016}
@@ -95,32 +62,42 @@ A(2,3),\; B(3,5),\; C(4,4).
 \]
 \end{frame}
 
-\begin{frame}{The vertices of a triangle}
+\begin{frame}{The Vertices as Vectors}
 \begin{table}[H]    
   \centering
-  \input{beamer/tables/table}
+  \begin{tabular}{|c|c|}
+  \hline
+  \textbf{Point} & \textbf{Vector} \\
+  \hline
+  A & $\myvec{2\\3\\0}$ \\
+  \hline
+  B & $\myvec{3\\5\\0}$ \\
+  \hline
+  C & $\myvec{4\\4\\0}$ \\
+  \hline
+  \end{tabular}
   \caption{Vectors}
   \label{Answers}
 \end{table}
 \end{frame}
 
-\begin{frame}{The sides of the triangle }
+\begin{frame}{The Sides of the Triangle}
 \begin{align}
 (\vec{A}-\vec{B})
-&= \begin{bmatrix} 2 \\ 3 \\ 0 \end{bmatrix}
-  - \begin{bmatrix} 3 \\ 5 \\ 0 \end{bmatrix}
-= \begin{bmatrix} -1 \\ -2 \\ 0 \end{bmatrix},
+&= \myvec{2\\3\\0}
+  - \myvec{3\\5\\0}
+= \myvec{-1\\-2\\0},
 \label{eq:AB} \\[6pt]
 (\vec{A}-\vec{C})
-&= \begin{bmatrix} 2 \\ 3 \\ 0 \end{bmatrix}
-  - \begin{bmatrix} 4 \\ 4 \\ 0 \end{bmatrix}
-= \begin{bmatrix} -2 \\ -1 \\ 0 \end{bmatrix}.
+&= \myvec{2\\3\\0}
+  - \myvec{4\\4\\0}
+= \myvec{-2\\-1\\0}.
 \label{eq:AC}
 \end{align}
 \end{frame}
 
-\begin{frame}{Cross product}
-Using \eqref{eq:AB} and \eqref{eq:AC} The magnitude of the cross product is
+\begin{frame}{Cross Product}
+Using \eqref{eq:AB} and \eqref{eq:AC}, the magnitude of the cross product is
 \begin{align}
 \big\lVert (\vec{A}-\vec{B}) \times (\vec{A}-\vec{C}) \big\rVert
 &= \sqrt{0^2 + 0^2 + (-3)^2} = 3.
@@ -128,8 +105,8 @@ Using \eqref{eq:AB} and \eqref{eq:AC} The magnitude of the cross product is
 \end{align}
 \end{frame}
 
-\begin{frame}{Area of triangle}
-Therefore the area of triangle \(ABC\) is
+\begin{frame}{Area of Triangle}
+Therefore, the area of triangle \(ABC\) is
 \begin{align}
 \text{ar}(\triangle ABC)
 &= \tfrac{1}{2}\,\big\lVert (\vec{A}-\vec{B}) \times (\vec{A}-\vec{C}) \big\rVert
@@ -169,14 +146,6 @@ int main() {
 
     double area = area_triangle(A,B,C);
     printf("Area of triangle = %.2f\n", area);
-
-    FILE *fp = fopen("triangle_points.txt","w");
-    fprintf(fp,"%f %f\n", A[0], A[1]);
-    fprintf(fp,"%f %f\n", B[0], B[1]);
-    fprintf(fp,"%f %f\n", C[0], C[1]);
-    fprintf(fp,"%f %f\n", A[0], A[1]); // close loop
-    fclose(fp);
-
     return 0;
 }
     \end{lstlisting}
@@ -212,20 +181,10 @@ C = (ctypes.c_double * 3)(4,4,0)
 # Call C function
 area = lib.area_triangle(A,B,C)
 print("Area of triangle =", area)
-
-# Plot triangle
-points = np.array([[2,3],[3,5],[4,4],[2,3]])
-plt.plot(points[:,0], points[:,1], 'bo-')
-for i, txt in enumerate(['A','B','C']):
-    plt.text(points[i,0]+0.1, points[i,1]+0.1, txt, fontsize=12)
-plt.title(f"Triangle ABC (Area = {area:.2f})")
-plt.xlabel("x")
-plt.ylabel("y")
-plt.grid(True)
-plt.axis("equal")
-plt.show()
+# (Plotting code would follow)
     \end{lstlisting}
 \end{frame}
+
 
 \begin{frame}[fragile]
     \frametitle{Native Python Code}
@@ -262,14 +221,15 @@ plt.xlabel("x")
 plt.ylabel("y")
 plt.grid(True)
 plt.axis("equal")
+plt.savefig("Figs/Fig1.png") # Save the figure
 plt.show()
     \end{lstlisting}
 \end{frame}
 
 \begin{frame}{Plot}
     \centering
-    % Ensure Fig1.png is in the same directory or in a /Figs subdirectory
-    \includegraphics[width=\columnwidth, height=0.8\textheight, keepaspectratio]{beamer/figs/Figure_1.png}   
+    % Ensure Fig1.png is in a /Figs subdirectory
+    \includegraphics[width=\columnwidth, height=0.8\textheight, keepaspectratio]{figs/Figure_1.png}
 \end{frame}
 
 \end{document}

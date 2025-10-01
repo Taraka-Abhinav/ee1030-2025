@@ -2,19 +2,16 @@
 \let\negthickspace\undefined
 \documentclass[journal]{IEEEtran}
 \usepackage[a5paper, margin=10mm, onecolumn]{geometry}
-\usepackage{lmodern} % Ensure lmodern is loaded for pdflatex
-\usepackage{tfrupee} % Include tfrupee package
+\usepackage{tfrupee}
 
-\setlength{\headheight}{1cm} % Set the height of the header box
-\setlength{\headsep}{0mm}     % Set the distance between the header box and the top of the text
+\setlength{\headheight}{1cm}
+\setlength{\headsep}{0mm}
 
 \usepackage{gvv-book}
-\usepackage{gvv}
 \usepackage{cite}
 \usepackage{amsmath,amssymb,amsfonts,amsthm}
 \usepackage{algorithmic}
 \usepackage{graphicx}
-\graphicspath{{./figs/}}
 \usepackage{textcomp}
 \usepackage{xcolor}
 \usepackage{txfonts}
@@ -23,9 +20,11 @@
 \usepackage{mathtools}
 \usepackage{gensymb}
 \usepackage{comment}
-\usepackage{float}
 \usepackage[breaklinks=true]{hyperref}
 \usepackage{tkz-euclide} 
+\usepackage{listings}
+\usepackage{gvv}                                        
+\usepackage{tikz}
 \def\inputGnumericTable{}                                 
 \usepackage[latin1]{inputenc}                                
 \usepackage{color}                                            
@@ -36,56 +35,60 @@
 \usepackage{hhline}                                           
 \usepackage{ifthen}                                           
 \usepackage{lscape}
-\usepackage{circuitikz}
-\tikzstyle{block} = [rectangle, draw, fill=blue!20, 
-text width=4em, text centered, rounded corners, minimum height=3em]
-\tikzstyle{sum} = [draw, fill=blue!10, circle, minimum size=1cm, node distance=1.5cm]
-\tikzstyle{input} = [coordinate]
-\tikzstyle{output} = [coordinate]
-
-
 \begin{document}
-	
-	\bibliographystyle{IEEEtran}
-	\vspace{3cm}
-	
-	\title{2.7.28}
-	\author{EE25BTECH11016 - Taraka Abhinav}
-	\maketitle
-	{\let\newpage\relax\maketitle}
-	
-	\setlength{\intextsep}{10pt} % Space between text and floats
 
-\textbf{Question:}\\
-\[
+\bibliographystyle{IEEEtran}
+
+\title{2.7.28}
+\author{EE25BTECH11016 - Taraka Abhinav}
+{\let\newpage\relax\maketitle}
+
+\renewcommand{\thefigure}{\theenumi}
+\renewcommand{\thetable}{\theenumi}
+\setlength{\intextsep}{10pt}
+
+\numberwithin{figure}{enumi}
+\renewcommand{\thetable}{\theenumi}
+
+\textbf{Question}:\\
 \text{Find the area of the triangle whose vertices are }
-A(2,3),\; B(3,5),\; C(4,4).
-\]
+A(2,3),\; B(3,5),\; \text{and } C(4,4).
 
 \solution \\
-\begin{table}[H]    
+\begin{table}[H]
   \centering
-  \input{tables/table}
+  \begin{tabular}{|c|c|}
+  \hline
+  \textbf{Point} & \textbf{Vector} \\
+  \hline
+  A & $\myvec{2\\3\\0}$ \\
+  \hline
+  B & $\myvec{3\\5\\0}$ \\
+  \hline
+  C & $\myvec{4\\4\\0}$ \\
+  \hline
+  \end{tabular}
   \caption{Vectors}
   \label{Answers}
 \end{table}
 
 \begin{align}
 (\vec{A}-\vec{B})
-&= \begin{bmatrix} 2 \\ 3 \\ 0 \end{bmatrix}
-  - \begin{bmatrix} 3 \\ 5 \\ 0 \end{bmatrix}
-= \begin{bmatrix} -1 \\ -2 \\ 0 \end{bmatrix},
+&= \myvec{2\\3\\0}
+  - \myvec{3\\5\\0}
+= \myvec{-1\\-2\\0},
 \label{eq:AB} \\[6pt]
 (\vec{A}-\vec{C})
-&= \begin{bmatrix} 2 \\ 3 \\ 0 \end{bmatrix}
-  - \begin{bmatrix} 4 \\ 4 \\ 0 \end{bmatrix}
-= \begin{bmatrix} -2 \\ -1 \\ 0 \end{bmatrix}.
+&= \myvec{2\\3\\0}
+  - \myvec{4\\4\\0}
+= \myvec{-2\\-1\\0}.
 \label{eq:AC}
 \end{align}
 
-Using \eqref{eq:AB} and \eqref{eq:AC} The magnitude of the cross product is
+Using \eqref{eq:AB} and \eqref{eq:AC}, the magnitude of the cross product is
 \begin{align}
 \big\lVert (\vec{A}-\vec{B}) \times (\vec{A}-\vec{C}) \big\rVert
+&= \sqrt{0^2 + 0^2 + ((-1)(-1) - (-2)(-2))^2} \nonumber \\
 &= \sqrt{0^2 + 0^2 + (-3)^2} = 3.
 \label{eq:norm}
 \end{align}
@@ -98,10 +101,11 @@ Therefore the area of triangle \(ABC\) is
 \label{eq:area}
 \end{align}
 
-      Therefore  \(\displaystyle \text{ar}(\triangle ABC)=1.5\).
-\begin{figure}
+      Therefore, \(\displaystyle \text{ar}(\triangle ABC)=1.5\).
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\linewidth]{figs/Figure_1.png}
+    % The user would generate this figure using a plotting tool.
+    \includegraphics[width=0.9\linewidth]{figs/Figure_1.png}
     \label{fig:placeholder}
 \end{figure}
 \end{document}

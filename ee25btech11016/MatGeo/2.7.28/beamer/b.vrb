@@ -10,5 +10,6 @@ plt.xlabel("x")
 plt.ylabel("y")
 plt.grid(True)
 plt.axis("equal")
+plt.savefig("Figs/Fig1.png") # Save the figure
 plt.show()
     \end{lstlisting}
