@@ -1,0 +1,290 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+
+\usetheme{Madrid}
+\usecolortheme{default}
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+\usepackage{txfonts}
+\usepackage{tkz-euclide}
+\usepackage{listings}
+\usepackage{adjustbox}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{gvv} 
+\usepackage{lmodern}
+\usepackage{circuitikz}
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage[T1]{fontenc}
+\usepackage{float}
+\usepackage{hyperref}
+
+% For 3D plots
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.17}
+
+\lstset{
+  language=Python,
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  literate={λ}{{$\lambda$}}1
+}
+
+\setbeamertemplate{page number in head/foot}[totalframenumber]
+
+\usepackage{tcolorbox}
+\tcbuselibrary{minted,breakable,xparse,skins}
+
+\definecolor{bg}{gray}{0.95}
+\lstset{
+    language=C,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    stringstyle=\color{orange},
+    commentstyle=\color{green!60!black},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    breaklines=true,
+    showstringspaces=false,
+}
+\begin{document}
+
+\title
+{4.6.4}
+\date{October 3, 2025}
+
+\author
+{Taraka Abhinav - EE25BTECH11016}
+
+\frame{\titlepage}
+
+\begin{frame}{Question}
+Find the equation of a line passing through the point $(2, 3, 2)$ and parallel to the line:
+\[ \vec{r} = \myvec{-2 \\ 3 \\ 0} + \lambda\myvec{2 \\ -3 \\ 6} \]
+Also, find the distance between these two lines.
+\end{frame}
+
+\begin{frame}{Step 1: Equation of the Required Line}
+The vector equation of a line is $\vec{r} = \vec{a} + \mu\vec{b}$.
+
+The line passes through the point $(2, 3, 2)$, so the position vector is:
+\begin{align}
+    \vec{a_2} = \myvec{2 \\ 3 \\ 2}
+\end{align}
+The line is parallel to the given line, so they share the same direction vector:
+\begin{align}
+    \vec{b} = \myvec{2 \\ -3 \\ 6}
+\end{align}
+The equation of the required line is:
+\begin{align}
+    \vec{r} = \myvec{2 \\ 3 \\ 2} + \mu\myvec{2 \\ -3 \\ 6}
+\end{align}
+\end{frame}
+
+\begin{frame}{Step 2: Distance Between Lines}
+The distance $d$ between two parallel lines is given by the formula:
+\begin{align}
+    d = \frac{\|\vec{b} \times (\vec{a_2} - \vec{a_1})\|}{\|\vec{b}\|}
+\end{align}
+From the line equations, we have:
+\begin{align}
+    \vec{a_1} = \myvec{-2 \\ 3 \\ 0}, \quad \vec{a_2} = \myvec{2 \\ 3 \\ 2}, \quad \vec{b} = \myvec{2 \\ -3 \\ 6}
+\end{align}
+First, we find the difference vector $(\vec{a_2} - \vec{a_1})$:
+\begin{align}
+    \vec{a_2} - \vec{a_1} = \myvec{4 \\ 0 \\ 2}
+\end{align}
+\end{frame}
+
+\begin{frame}{Step 3: Calculating the Distance}
+Next, we compute the cross product:
+\begin{align}
+    \vec{b} \times (\vec{a_2} - \vec{a_1}) = \myvec{2 \\ -3 \\ 6} \times \myvec{4 \\ 0 \\ 2} = \myvec{-6 \\ 20 \\ 12}
+\end{align}
+Now, we find the norms (magnitudes):
+\begin{align}
+    \|\vec{b} \times (\vec{a_2} - \vec{a_1})\| &= \sqrt{(-6)^2 + 20^2 + 12^2} = \sqrt{580} \\
+    \|\vec{b}\| &= \sqrt{2^2 + (-3)^2 + 6^2} = \sqrt{49} = 7
+\end{align}
+Finally, the distance is:
+\begin{align}
+    d = \frac{\sqrt{580}}{7} = \frac{2\sqrt{145}}{7} \approx 3.44
+\end{align}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{C Code}
+    \begin{lstlisting}
+#include <stdio.h>
+#include <math.h>
+
+int main() {
+    double a1[3] = {-2, 3, 0};
+    double a2[3] = {2, 3, 2};
+    double b[3] = {2, -3, 6};
+    double da[3], v[3];
+
+    for (int i = 0; i < 3; i++) da[i] = a2[i] - a1[i];
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+\frametitle{C Code}
+   \begin{lstlisting}
+    v[0] = b[1]*da[2] - b[2]*da[1];
+    v[1] = b[2]*da[0] - b[0]*da[2];
+    v[2] = b[0]*da[1] - b[1]*da[0];
+
+    double vnorm = sqrt(v[0]*v[0] + v[1]*v[1] + v[2]*v[2]);
+    double bnorm = sqrt(b[0]*b[0] + b[1]*b[1] + b[2]*b[2]);
+
+    double d = vnorm / bnorm;
+    printf("Distance = %lf\n", d);
+
+    return 0;
+}
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Python + C Code}
+    \begin{lstlisting}[language=Python]
+import ctypes
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Load compiled shared library
+lib = ctypes.CDLL('./line_distance.so')
+lib.main()
+
+# Given data
+a1 = np.array([-2, 3, 0])
+a2 = np.array([2, 3, 2])
+b = np.array([2, -3, 6])
+
+# Compute distance
+da = a2 - a1
+v = np.cross(b, da)
+d = np.linalg.norm(v) / np.linalg.norm(b)
+print("Distance =", d)
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Python + C Code}
+    \begin{lstlisting}[language=Python]
+# Projection of da onto b to find perpendicular foot
+proj = (np.dot(da, b) / np.dot(b, b)) * b
+perp_vec = da - proj
+p1 = a1 + proj
+p2 = a2
+
+# Plot
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+
+# Line 1 and Line 2
+t = np.linspace(-2, 2, 10)
+line1 = a1 + np.outer(t, b)
+line2 = a2 + np.outer(t, b)
+
+ax.plot(line1[:,0], line1[:,1], line1[:,2], 'r', label='Line 1')
+ax.plot(line2[:,0], line2[:,1], line2[:,2], 'b', label='Line 2')
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Python + C Code}
+    \begin{lstlisting}[language=Python]
+# Points with vector labels
+ax.scatter(*a1, color='red')
+ax.text(a1[0], a1[1], a1[2], f"A1 {a1}", color='red', fontsize=10)
+ax.scatter(*a2, color='blue')
+ax.text(a2[0], a2[1], a2[2], f"A2 {a2}", color='blue', fontsize=10)
+
+# Perpendicular distance line
+ax.plot([p1[0], p2[0]], [p1[1], p2[1]], [p1[2], p2[2]], 'g--', label=f'Distance = {round(d,3)}')
+
+ax.legend()
+plt.show()
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Python Plotting Code}
+    \begin{lstlisting}[language=Python]
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Data
+a1 = np.array([-2, 3, 0])
+a2 = np.array([2, 3, 2])
+b = np.array([2, -3, 6])
+
+# Distance calculation
+da = a2 - a1
+v = np.cross(b, da)
+d = np.linalg.norm(v) / np.linalg.norm(b)
+print("Distance =", d)
+
+# Projection for perpendicular line
+proj = (np.dot(da, b) / np.dot(b, b)) * b
+p1 = a1 + proj
+p2 = a2
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Python Plotting Code}
+    \begin{lstlisting}[language=Python]
+# Plot
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+
+# Lines
+t = np.linspace(-2, 2, 10)
+line1 = a1 + np.outer(t, b)
+line2 = a2 + np.outer(t, b)
+
+ax.plot(line1[:,0], line1[:,1], line1[:,2], 'r', label='Line 1')
+ax.plot(line2[:,0], line2[:,1], line2[:,2], 'b', label='Line 2')
+
+# Points with labels
+ax.scatter(*a1, color='red')
+ax.text(a1[0], a1[1], a1[2], f"A1 {a1}", color='red', fontsize=10)
+ax.scatter(*a2, color='blue')
+ax.text(a2[0], a2[1], a2[2], f"A2 {a2}", color='blue', fontsize=10)
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Python Plotting Code}
+    \begin{lstlisting}[language=Python]
+# Perpendicular distance line
+ax.plot([p1[0], p2[0]], [p1[1], p2[1]], [p1[2], p2[2]], 'g--', label=f'Distance = {round(d,3)}')
+
+# Direction vectors (as arrows from A1 and A2)
+ax.quiver(a1[0], a1[1], a1[2], b[0], b[1], b[2], color='red', arrow_length_ratio=0.1, linewidth=1.5)
+ax.text(a1[0]+b[0]*0.5, a1[1]+b[1]*0.5, a1[2]+b[2]*0.5, "b", color='red')
+
+ax.quiver(a2[0], a2[1], a2[2], b[0], b[1], b[2], color='blue', arrow_length_ratio=0.1, linewidth=1.5)
+ax.text(a2[0]+b[0]*0.5, a2[1]+b[1]*0.5, a2[2]+b[2]*0.5, "b", color='blue')
+
+# Make plot readable
+ax.legend()
+ax.set_xlabel("X")
+ax.set_ylabel("Y")
+ax.set_zlabel("Z")
+
+plt.show()
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Plot of the Parallel Lines}
+    \centering
+    \includegraphics[width=1\textwidth]{figs/Figure_1.png}   
+\end{frame}
+
+\end{document}

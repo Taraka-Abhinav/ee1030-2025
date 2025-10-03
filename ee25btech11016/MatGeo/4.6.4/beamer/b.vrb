@@ -1,0 +1,20 @@
+\frametitle{Python Plotting Code}
+    \begin{lstlisting}[language=Python]
+# Perpendicular distance line
+ax.plot([p1[0], p2[0]], [p1[1], p2[1]], [p1[2], p2[2]], 'g--', label=f'Distance = {round(d,3)}')
+
+# Direction vectors (as arrows from A1 and A2)
+ax.quiver(a1[0], a1[1], a1[2], b[0], b[1], b[2], color='red', arrow_length_ratio=0.1, linewidth=1.5)
+ax.text(a1[0]+b[0]*0.5, a1[1]+b[1]*0.5, a1[2]+b[2]*0.5, "b", color='red')
+
+ax.quiver(a2[0], a2[1], a2[2], b[0], b[1], b[2], color='blue', arrow_length_ratio=0.1, linewidth=1.5)
+ax.text(a2[0]+b[0]*0.5, a2[1]+b[1]*0.5, a2[2]+b[2]*0.5, "b", color='blue')
+
+# Make plot readable
+ax.legend()
+ax.set_xlabel("X")
+ax.set_ylabel("Y")
+ax.set_zlabel("Z")
+
+plt.show()
+    \end{lstlisting}
