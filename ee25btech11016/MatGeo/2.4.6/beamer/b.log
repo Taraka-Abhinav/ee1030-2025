@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2025/dev/Debian) (preloaded format=pdflatex 2025.9.16)  22 SEP 2025 06:16
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2025/dev/Debian) (preloaded format=pdflatex 2025.9.16)  3 OCT 2025 04:32
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1306,13 +1306,13 @@ File: t1lmss.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 ))
 (/usr/share/texlive/texmf-dist/tex/latex/listings/lstlang1.sty
 File: lstlang1.sty 2024/09/23 1.10c listings language file
-)
-No file b.aux.
+) (./b.aux)
 \openout1 = `b.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/txmi/m/it on input line 37.
 LaTeX Font Info:    Trying to load font information for OML+txmi on input line 
 37.
+
 (/usr/share/texlive/texmf-dist/tex/latex/txfonts/omltxmi.fd
 File: omltxmi.fd 2000/12/15 v3.1
 )
@@ -1417,6 +1417,8 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 Package hyperref Info: Link coloring OFF on input line 37.
+
+(./b.out) (./b.out)
 \@outlinefile=\write5
 \openout5 = `b.out'.
 
@@ -1492,8 +1494,7 @@ ry-English.dict
 Dictionary: translator-theorem-dictionary, Language: English 
 )
 \c@lstlisting=\count383
-
-No file b.nav.
+ (./b.nav)
 
 Package hyperref Warning: Option `pdfauthor' has already been used,
 (hyperref)                setting the option has no effect on input line 41.
@@ -1584,12 +1585,12 @@ s/lm/lm-mathsy.enc}]
 
 [3
 
-{/usr/share/texmf/fonts/enc/dvips/lm/lm-mathex.enc}{/usr/share/texmf/fonts/enc/
-dvips/lm/lm-mathit.enc}]
+]
 
 [4
 
-]
+{/usr/share/texmf/fonts/enc/dvips/lm/lm-mathex.enc}{/usr/share/texmf/fonts/enc/
+dvips/lm/lm-mathit.enc}]
 
 [5
 
@@ -1608,7 +1609,7 @@ LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 3
 (/usr/share/texmf/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 ))
-Overfull \vbox (1.72923pt too high) detected at line 107
+Overfull \vbox (1.72923pt too high) detected at line 108
  []
 
 
@@ -1633,10 +1634,6 @@ Overfull \vbox (1.72923pt too high) detected at line 107
 \openout4 = `b.vrb'.
 
  (./b.vrb)
-Overfull \vbox (1.72923pt too high) detected at line 169
- []
-
-
 
 [9
 
@@ -1648,13 +1645,13 @@ Overfull \vbox (1.72923pt too high) detected at line 169
 [10
 
 ]
-<figs/Figure_1.png, id=317, 722.7pt x 578.16pt>
+<figs/Figure_1.png, id=318, 722.7pt x 578.16pt>
 File: figs/Figure_1.png Graphic file (type png)
 <use figs/Figure_1.png>
-Package pdftex.def Info: figs/Figure_1.png  used on input line 194.
+Package pdftex.def Info: figs/Figure_1.png  used on input line 193.
 (pdftex.def)             Requested size: 342.2953pt x 273.83487pt.
 
-Overfull \vbox (66.36412pt too high) detected at line 194
+Overfull \vbox (66.36412pt too high) detected at line 193
  []
 
 
@@ -1676,24 +1673,14 @@ Overfull \vbox (66.36412pt too high) detected at line 194
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2020/03/25>
  ***********
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-
-Package rerunfilecheck Warning: File `b.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `b.out':
-(rerunfilecheck)             Before: <no file>
-(rerunfilecheck)             After:  D41D8CD98F00B204E9800998ECF8427E;0.
+Package rerunfilecheck Info: File `b.out' has not changed.
+(rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 51846 strings out of 473197
- 1224351 string characters out of 5718605
- 2205022 words of memory out of 5000000
- 74182 multiletter control sequences out of 15000+600000
+ 51880 strings out of 473197
+ 1224584 string characters out of 5718605
+ 2181022 words of memory out of 5000000
+ 74208 multiletter control sequences out of 15000+600000
  608985 words of font info for 80 fonts, out of 8000000 for 9000
  1144 hyphenation exceptions out of 8191
  128i,15n,123p,1169b,1416s stack positions out of 10000i,1000n,20000p,200000b,200000s
@@ -1702,9 +1689,9 @@ pe1/public/lm/lmmi10.pfb></usr/share/texmf/fonts/type1/public/lm/lmss10.pfb></u
 sr/share/texmf/fonts/type1/public/lm/lmss12.pfb></usr/share/texmf/fonts/type1/p
 ublic/lm/lmss8.pfb></usr/share/texmf/fonts/type1/public/lm/lmssbx10.pfb></usr/s
 hare/texmf/fonts/type1/public/lm/lmsso10.pfb></usr/share/texmf/fonts/type1/publ
-ic/lm/lmsy10.pfb></usr/share/texmf/fonts/type1/public/lm/lmsy8.pfb></usr/share/
-texmf/fonts/type1/public/lm/lmtt10.pfb>
-Output written on b.pdf (11 pages, 249862 bytes).
+ic/lm/lmsso8.pfb></usr/share/texmf/fonts/type1/public/lm/lmsy10.pfb></usr/share
+/texmf/fonts/type1/public/lm/lmtt10.pfb>
+Output written on b.pdf (11 pages, 261644 bytes).
 PDF statistics:
  404 PDF objects out of 1000 (max. 8388607)
  335 compressed objects within 4 object streams
