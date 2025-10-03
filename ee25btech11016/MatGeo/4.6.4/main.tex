@@ -69,35 +69,48 @@ Find the equation of a line passing through the point $(2, 3, 2)$ and parallel t
 \solution \\
 
 \textbf{1. Equation of the Line}\\
-The equation is $\vec{r} = \vec{a_2} + \mu\vec{b}$.
+The equation of the line passing through point $\vec{a_2}$ parallel to vector $\vec{b}$ is:
 \begin{align}
-    \vec{r} = \myvec{2 \\ 3 \\ 2} + \mu\myvec{2 \\ -3 \\ 6}
+    \vec{r} = \vec{a_2} + \mu\vec{b} = \myvec{2 \\ 3 \\ 2} + \mu\myvec{2 \\ -3 \\ 6}
 \end{align}
 
-\textbf{2. Distance Between Lines}\\
-The distance is given by the formula:
+\textbf{2. Distance Between Lines using Least Squares}\\
+Let $\Delta\vec{a} = \vec{a_2} - \vec{a_1}$. The squared distance between the lines is the minimum of the function:
 \begin{align}
-    d = \frac{\|\vec{b} \times (\vec{a_2} - \vec{a_1})\|}{\|\vec{b}\|}
+    f(\nu) = \|\Delta\vec{a} - \nu\vec{b}\|^2 = (\Delta\vec{a} - \nu\vec{b})^T(\Delta\vec{a} - \nu\vec{b}) \nonumber \\
+    = \Delta\vec{a}^T\Delta\vec{a} - 2\nu(\Delta\vec{a}^T\vec{b}) + \nu^2(\vec{b}^T\vec{b})
 \end{align}
-First, we find the required vectors algebraically. Let $\Delta\vec{a} = \vec{a_2} - \vec{a_1}$. Let the cross product be $\vec{v} = \vec{b} \times \Delta\vec{a}$. The formula is $d = \frac{\|\vec{v}\|}{\|\vec{b}\|}$.\\
-
-Now, we substitute the numerical values:
+To find the minimum, we set the derivative to zero:
+\begin{align}
+    \frac{df}{d\nu} = -2(\Delta\vec{a}^T\vec{b}) + 2\nu(\vec{b}^T\vec{b}) = 0 \implies \nu_{opt} = \frac{\Delta\vec{a}^T\vec{b}}{\vec{b}^T\vec{b}}
+\end{align}
+Substituting $\nu_{opt}$ back gives the minimum squared distance:
+\begin{align}
+    d^2 = \frac{(\Delta\vec{a}^T\Delta\vec{a})(\vec{b}^T\vec{b}) - (\Delta\vec{a}^T\vec{b})^2}{\vec{b}^T\vec{b}}
+\end{align}
+By Lagrange's identity, the numerator is $\|\Delta\vec{a} \times \vec{b}\|^2$. This gives the distance formula:
+\begin{align}
+    d = \frac{\|\Delta\vec{a} \times \vec{b}\|}{\|\vec{b}\|}
+\end{align}
+The numerical values are:
 \begin{align}
     \vec{a_1} = \myvec{-2 \\ 3 \\ 0}, \quad \vec{a_2} = \myvec{2 \\ 3 \\ 2}, \quad \vec{b} = \myvec{2 \\ -3 \\ 6}
 \end{align}
 \begin{align}
-    \Delta\vec{a} = \myvec{4 \\ 0 \\ 2}
+    \Delta\vec{a} = \vec{a_2} - \vec{a_1} = \myvec{4 \\ 0 \\ 2}
 \end{align}
+The cross product is:
 \begin{align}
-    \vec{v} = \myvec{2 \\ -3 \\ 6} \times \myvec{4 \\ 0 \\ 2} = \myvec{-6 \\ 20 \\ 12}
+    \Delta\vec{a} \times \vec{b} = \myvec{4 \\ 0 \\ 2} \times \myvec{2 \\ -3 \\ 6} = \myvec{6 \\ -20 \\ -12}
 \end{align}
+The norms are:
 \begin{align}
-    \|\vec{v}\| &= \sqrt{(-6)^2 + 20^2 + 12^2} = \sqrt{580} = 2\sqrt{145} \\
-    \|\vec{b}\| &= \sqrt{2^2 + (-3)^2 + 6^2} = \sqrt{49} = 7
+    \|\Delta\vec{a} \times \vec{b}\| &= \sqrt{6^2 + (-20)^2 + (-12)^2} = \sqrt{580} \\
+    \|\vec{b}\| &= \sqrt{2^2 + (-3)^2 + 6^2} = 7
 \end{align}
 The distance is:
 \begin{align}
-    d = \frac{2\sqrt{145}}{7}
+    d = \frac{\sqrt{580}}{7} = \frac{2\sqrt{145}}{7}
 \end{align}
 
 \begin{figure}[H]

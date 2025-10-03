@@ -66,7 +66,7 @@ Also, find the distance between these two lines.
 \end{frame}
 
 \begin{frame}{Step 1: Equation of the Required Line}
-The vector equation of a line is $\vec{r} = \vec{a} + \mu\vec{b}$.
+The vector equation of a line is $\vec{r} = \vec{a_2} + \mu\vec{b}$.
 
 The line passes through the point $(2, 3, 2)$, so the position vector is:
 \begin{align}
@@ -82,34 +82,56 @@ The equation of the required line is:
 \end{align}
 \end{frame}
 
-\begin{frame}{Step 2: Distance Between Lines}
-The distance $d$ between two parallel lines is given by the formula:
+\begin{frame}{Step 2: Distance via Least Squares}
+Let $\Delta\vec{a} = \vec{a_2} - \vec{a_1}$. We want to find the minimum of the squared distance function $f(\nu)$:
+\begin{align*}
+    f(\nu) &= \|\Delta\vec{a} - \nu\vec{b}\|^2 \\
+           &= (\Delta\vec{a} - \nu\vec{b})^T(\Delta\vec{a} - \nu\vec{b}) \\
+           &= \Delta\vec{a}^T\Delta\vec{a} - 2\nu(\Delta\vec{a}^T\vec{b}) + \nu^2(\vec{b}^T\vec{b})
+\end{align*}
+To find the minimum, we set the derivative with respect to $\nu$ to zero.
+\end{frame}
+
+\begin{frame}{Step 3: Minimizing the Distance}
+Taking the derivative of $f(\nu)$ and setting it to zero:
 \begin{align}
-    d = \frac{\|\vec{b} \times (\vec{a_2} - \vec{a_1})\|}{\|\vec{b}\|}
+    \frac{df}{d\nu} = -2(\Delta\vec{a}^T\vec{b}) + 2\nu(\vec{b}^T\vec{b}) = 0
 \end{align}
-From the line equations, we have:
+Solving for the optimal value of $\nu$:
 \begin{align}
-    \vec{a_1} = \myvec{-2 \\ 3 \\ 0}, \quad \vec{a_2} = \myvec{2 \\ 3 \\ 2}, \quad \vec{b} = \myvec{2 \\ -3 \\ 6}
+    \nu_{opt} = \frac{\Delta\vec{a}^T\vec{b}}{\vec{b}^T\vec{b}}
 \end{align}
-First, we find the difference vector $(\vec{a_2} - \vec{a_1})$:
+Substituting this back into the distance function gives the minimum distance squared.
+\end{frame}
+
+\begin{frame}{Step 4: Final Distance Formula}
+The minimum squared distance is:
 \begin{align}
-    \vec{a_2} - \vec{a_1} = \myvec{4 \\ 0 \\ 2}
+    d^2 = \frac{(\Delta\vec{a}^T\Delta\vec{a})(\vec{b}^T\vec{b}) - (\Delta\vec{a}^T\vec{b})^2}{\vec{b}^T\vec{b}}
+\end{align}
+Using Lagrange's identity, the numerator simplifies to $\|\Delta\vec{a} \times \vec{b}\|^2$.
+\begin{align}
+    d^2 = \frac{\|\Delta\vec{a} \times \vec{b}\|^2}{\|\vec{b}\|^2} \implies d = \frac{\|\Delta\vec{a} \times \vec{b}\|}{\|\vec{b}\|}
 \end{align}
 \end{frame}
 
-\begin{frame}{Step 3: Calculating the Distance}
-Next, we compute the cross product:
+\begin{frame}{Step 5: Numerical Calculation}
+We substitute the numerical values:
 \begin{align}
-    \vec{b} \times (\vec{a_2} - \vec{a_1}) = \myvec{2 \\ -3 \\ 6} \times \myvec{4 \\ 0 \\ 2} = \myvec{-6 \\ 20 \\ 12}
+    \Delta\vec{a} = \myvec{4 \\ 0 \\ 2} \quad , \quad \vec{b} = \myvec{2 \\ -3 \\ 6}
 \end{align}
-Now, we find the norms (magnitudes):
+The cross product is:
 \begin{align}
-    \|\vec{b} \times (\vec{a_2} - \vec{a_1})\| &= \sqrt{(-6)^2 + 20^2 + 12^2} = \sqrt{580} \\
-    \|\vec{b}\| &= \sqrt{2^2 + (-3)^2 + 6^2} = \sqrt{49} = 7
+    \Delta\vec{a} \times \vec{b} = \myvec{6 \\ -20 \\ -12}
 \end{align}
-Finally, the distance is:
+The norms are:
 \begin{align}
-    d = \frac{\sqrt{580}}{7} = \frac{2\sqrt{145}}{7} \approx 3.44
+    \|\Delta\vec{a} \times \vec{b}\| &= \sqrt{6^2 + (-20)^2 + (-12)^2} = \sqrt{580} \\
+    \|\vec{b}\| &= \sqrt{2^2 + (-3)^2 + 6^2} = 7
+\end{align}
+The distance is:
+\begin{align}
+    d = \frac{\sqrt{580}}{7} = \frac{2\sqrt{145}}{7}
 \end{align}
 \end{frame}
 
