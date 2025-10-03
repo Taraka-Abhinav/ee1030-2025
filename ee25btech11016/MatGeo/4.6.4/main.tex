@@ -1,0 +1,109 @@
+\let\negmedspace\undefined
+\let\negthickspace\undefined
+\documentclass[journal]{IEEEtran}
+\usepackage[a5paper, margin=10mm, onecolumn]{geometry}
+%\usepackage{lmodern} % Ensure lmodern is loaded for pdflatex
+\usepackage{tfrupee} % Include tfrupee package
+
+\setlength{\headheight}{1cm} % Set the height of the header box
+\setlength{\headsep}{0mm}     % Set the distance between the header box and the top of the text
+
+\usepackage{gvv-book}
+\usepackage{gvv}
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{txfonts}
+\usepackage{listings}
+\usepackage{enumitem}
+\usepackage{mathtools}
+\usepackage{gensymb}
+\usepackage{comment}
+\usepackage[breaklinks=true]{hyperref}
+\usepackage{tkz-euclide}
+\usepackage{listings}
+% \usepackage{gvv}
+\def\inputGnumericTable{}
+\usepackage[latin1]{inputenc}
+\usepackage{color}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{calc}
+\usepackage{multirow}
+\usepackage{hhline}
+\usepackage{ifthen}
+\usepackage{lscape}
+\usepackage{circuitikz}
+\tikzstyle{block} = [rectangle, draw, fill=blue!20, 
+    text width=4em, text centered, rounded corners, minimum height=3em]
+\tikzstyle{sum} = [draw, fill=blue!10, circle, minimum size=1cm, node distance=1.5cm]
+\tikzstyle{input} = [coordinate]
+\tikzstyle{output} = [coordinate]
+
+
+\begin{document}
+
+\bibliographystyle{IEEEtran}
+\vspace{3cm}
+
+\title{4.6.4}
+\author{Taraka Abhinav - EE25BTECH11016}
+\maketitle
+{\let\newpage\relax\maketitle}
+
+\renewcommand{\thefigure}{\theenumi}
+\renewcommand{\thetable}{\theenumi}
+\setlength{\intextsep}{10pt} % Space between text and floats
+
+
+\numberwithin{equation}{enumi}
+\numberwithin{figure}{enumi}
+\renewcommand{\thetable}{\theenumi}
+
+\textbf{Question}:\\
+Find the equation of a line passing through the point $(2, 3, 2)$ and parallel to the line $\vec{r} = (-2\hat{i} + 3\hat{j}) + \lambda(2\hat{i} - 3\hat{j} + 6\hat{k})$. Also, find the distance between these two lines.
+
+\solution \\
+
+\textbf{1. Equation of the Line}\\
+The equation is $\vec{r} = \vec{a_2} + \mu\vec{b}$.
+\begin{align}
+    \vec{r} = \myvec{2 \\ 3 \\ 2} + \mu\myvec{2 \\ -3 \\ 6}
+\end{align}
+
+\textbf{2. Distance Between Lines}\\
+The distance is given by the formula:
+\begin{align}
+    d = \frac{\|\vec{b} \times (\vec{a_2} - \vec{a_1})\|}{\|\vec{b}\|}
+\end{align}
+First, we find the required vectors algebraically. Let $\Delta\vec{a} = \vec{a_2} - \vec{a_1}$. Let the cross product be $\vec{v} = \vec{b} \times \Delta\vec{a}$. The formula is $d = \frac{\|\vec{v}\|}{\|\vec{b}\|}$.\\
+
+Now, we substitute the numerical values:
+\begin{align}
+    \vec{a_1} = \myvec{-2 \\ 3 \\ 0}, \quad \vec{a_2} = \myvec{2 \\ 3 \\ 2}, \quad \vec{b} = \myvec{2 \\ -3 \\ 6}
+\end{align}
+\begin{align}
+    \Delta\vec{a} = \myvec{4 \\ 0 \\ 2}
+\end{align}
+\begin{align}
+    \vec{v} = \myvec{2 \\ -3 \\ 6} \times \myvec{4 \\ 0 \\ 2} = \myvec{-6 \\ 20 \\ 12}
+\end{align}
+\begin{align}
+    \|\vec{v}\| &= \sqrt{(-6)^2 + 20^2 + 12^2} = \sqrt{580} = 2\sqrt{145} \\
+    \|\vec{b}\| &= \sqrt{2^2 + (-3)^2 + 6^2} = \sqrt{49} = 7
+\end{align}
+The distance is:
+\begin{align}
+    d = \frac{2\sqrt{145}}{7}
+\end{align}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\linewidth]{figs/Figure_1.png}
+    \label{fig:placeholder}
+\end{figure}
+
+\end{document}
