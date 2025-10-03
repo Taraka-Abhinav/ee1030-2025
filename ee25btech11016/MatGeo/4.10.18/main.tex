@@ -1,0 +1,117 @@
+\let\negmedspace\undefined
+\let\negthickspace\undefined
+\documentclass[journal]{IEEEtran}
+\usepackage[a5paper, margin=10mm, onecolumn]{geometry}
+\usepackage{tfrupee}
+
+\setlength{\headheight}{1cm}
+\setlength{\headsep}{0mm}
+
+\usepackage{gvv-book}
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{txfonts}
+\usepackage{listings}
+\usepackage{enumitem}
+\usepackage{mathtools}
+\usepackage{gensymb}
+\usepackage{comment}
+\usepackage[breaklinks=true]{hyperref}
+\usepackage{tkz-euclide}
+\usepackage{listings}
+\usepackage{gvv}
+\usepackage{tikz}
+\def\inputGnumericTable{}
+\usepackage[latin1]{inputenc}
+\usepackage{color}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{calc}
+\usepackage{multirow}
+\usepackage{hhline}
+\usepackage{ifthen}
+\usepackage{lscape}
+\begin{document}
+
+\bibliographystyle{IEEEtran}
+
+\title{4.10.18}
+\author{Taraka Abhinav - EE25BTECH11016}
+{\let\newpage\relax\maketitle}
+
+\renewcommand{\thefigure}{\theenumi}
+\renewcommand{\thetable}{\theenumi}
+\setlength{\intextsep}{10pt}
+
+\numberwithin{figure}{enumi}
+\renewcommand{\thetable}{\theenumi}
+
+\textbf{Question}:\\
+Find the area of the region bounded by the lines $y=4x+5$, $y=5-x$, and $4y=x+5$.
+
+\solution \\
+The bounded region is a triangle. Its area can be determined by first finding the coordinates of its three vertices, which are the points of intersection of the given lines.\\
+
+\textbf{Step 1: Calculation of Vertices}\\
+
+\textbf{Vertex A:} Intersection of $L_1: -4x+y=5$ and $L_2: x+y=5$
+\begin{align}
+\left( \begin{array}{cc|c} -4 & 1 & 5 \\ 1 & 1 & 5 \end{array} \right) \xrightarrow{4\rho_2+\rho_1} \left( \begin{array}{cc|c} -4 & 1 & 5 \\ 0 & 5 & 25 \end{array} \right)
+\end{align}
+From the second row, $5y=25 \implies y=5$. Substituting into the first row, $-4x+5=5 \implies x=0$.
+The coordinates for Vertex A are $\myvec{0 \\ 5}$.
+
+\textbf{Vertex B:} Intersection of $L_2: x+y=5$ and $L_3: -x+4y=5$
+\begin{align}
+\left( \begin{array}{cc|c} 1 & 1 & 5 \\ -1 & 4 & 5 \end{array} \right) \xrightarrow{\rho_1+\rho_2} \left( \begin{array}{cc|c} 1 & 1 & 5 \\ 0 & 5 & 10 \end{array} \right)
+\end{align}
+From the second row, $5y=10 \implies y=2$. Substituting into the first row, $x+2=5 \implies x=3$.
+The coordinates for Vertex B are $\myvec{3 \\ 2}$.
+
+\textbf{Vertex C:} Intersection of $L_1: -4x+y=5$ and $L_3: -x+4y=5$
+\begin{align}
+\left( \begin{array}{cc|c} -4 & 1 & 5 \\ -1 & 4 & 5 \end{array} \right) \xrightarrow{-4\rho_2+\rho_1} \left( \begin{array}{cc|c} -4 & 1 & 5 \\ 0 & -15 & -15 \end{array} \right)
+\end{align}
+From the second row, $-15y=-15 \implies y=1$. Substituting into the first row, $-4x+1=5 \implies x=-1$.
+The coordinates for Vertex C are $\myvec{-1 \\ 1}$.
+
+\textbf{Step 2: Calculation of Area}\\
+The area of a triangle with vertices $\vec{A}$, $\vec{B}$, and $\vec{C}$ can be calculated using the determinant of the vectors forming two of its sides. The formula is:
+\[
+\text{Area} = \frac{1}{2} \left| \det(\vec{A}-\vec{B}, \vec{A}-\vec{C}) \right|
+\]
+The given vertices are represented by 2D vectors:
+\[
+\vec{A} = \myvec{0 \\ 5}, \quad \vec{B} = \myvec{3 \\ 2}, \quad \vec{C} = \myvec{-1 \\ 1}
+\]
+First, we find the two side vectors:
+\begin{align}
+    \vec{A}-\vec{B} &= \myvec{0 \\ 5} - \myvec{3 \\ 2} = \myvec{-3 \\ 3} \label{eq:vec_ab} \\
+    \vec{A}-\vec{C} &= \myvec{0 \\ 5} - \myvec{-1 \\ 1} = \myvec{1 \\ 4} \label{eq:vec_ac}
+\end{align}
+Next, we calculate the determinant of the matrix formed by these two vectors as columns:
+\begin{align}
+    \det(\vec{A}-\vec{B}, \vec{A}-\vec{C}) &=  \mydet{
+\begin{pmatrix}
+-3 & 1 \\
+3 & 4
+\end{pmatrix}
+} \nonumber \\
+    &= (-3)(4) - (1)(3) \nonumber \\
+    &= -12 - 3 = -15 \label{eq:determinant}
+\end{align}
+The area is half the absolute value of this determinant:
+\begin{align}
+    \text{Area} = \frac{1}{2} |-15| = 7.5
+\end{align}
+Thus, the area of the triangle is $7.5$ square units.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{figs/Figure_1.png}
+    \label{fig:placeholder}
+\end{figure}
+\end{document}

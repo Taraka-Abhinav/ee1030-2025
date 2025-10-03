@@ -1,0 +1,265 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+
+\usetheme{Madrid}
+\usecolortheme{default}
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+\usepackage{txfonts}
+\usepackage{tkz-euclide}
+\usepackage{listings}
+\usepackage{adjustbox}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{gvv}
+\usepackage{lmodern}
+\usepackage{circuitikz}
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{float}
+
+
+\lstset{
+  language=Python,
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  showstringspaces=false,
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  stringstyle=\color{orange},
+  commentstyle=\color{green!60!black},
+  literate={->}{{$\rightarrow$}}1
+}
+
+\setbeamertemplate{page number in head/foot}[totalframenumber]
+
+\begin{document}
+
+\title{4.10.18: Area of a Bounded Region}
+\date{October 3, 2025}
+\author{Taraka Abhinav - EE25BTECH11016}
+
+\frame{\titlepage}
+
+\begin{frame}{Question}
+Find the area of the region bounded by the lines $y=4x+5$, $y=5-x$, and $4y=x+5$.
+\end{frame}
+
+\begin{frame}{Step 1: Finding the Vertices}
+
+\textbf{Vertex A:} Intersection of $y=4x+5$ and $y=5-x$
+\begin{align}
+    4x+5 = 5-x \implies 5x = 0 \implies x=0, y=5 \nonumber
+\end{align}
+$\vec{A} = \myvec{0 \\ 5}$
+
+\textbf{Vertex B:} Intersection of $y=5-x$ and $4y=x+5$
+\begin{align}
+    4(5-x) = x+5 \implies 20-4x = x+5 \implies x=3, y=2 \nonumber
+\end{align}
+$\vec{B} = \myvec{3 \\ 2}$
+
+\textbf{Vertex C:} Intersection of $y=4x+5$ and $4y=x+5$
+\begin{align}
+    4(4x+5) = x+5 \implies 16x+20 = x+5 \implies x=-1, y=1 \nonumber
+\end{align}
+$\vec{C} = \myvec{-1 \\ 1}$
+\end{frame}
+
+\begin{frame}{Step 2: Calculating the Area}
+We use the determinant formula for the area:
+\[
+\text{Area} = \frac{1}{2} \left| \det(\vec{A}-\vec{B}, \vec{A}-\vec{C}) \right|
+\]
+First, we find the side vectors:
+\begin{align}
+    \vec{A}-\vec{B} &= \myvec{0 \\ 5} - \myvec{3 \\ 2} = \myvec{-3 \\ 3} \label{eq:side1} \\
+    \vec{A}-\vec{C} &= \myvec{0 \\ 5} - \myvec{-1 \\ 1} = \myvec{1 \\ 4} \label{eq:side2}
+\end{align}
+\end{frame}
+
+\begin{frame}{Step 2: Calculating the Area (continued)}
+Now, we calculate the determinant:
+\begin{align}
+    \det(\vec{A}-\vec{B}, \vec{A}-\vec{C}) &= \begin{vmatrix} -3 & 1 \\ 3 & 4 \end{vmatrix} \nonumber \\
+    &= (-3)(4) - (1)(3) \nonumber \\
+    &= -12 - 3 = -15 \label{eq:det_val}
+\end{align}
+The area is half the absolute value of the determinant:
+\begin{align}
+    \text{Area} = \frac{1}{2} |-15| = 7.5
+\end{align}
+The area of the triangle is $7.5$ square units.
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{C Code - Verification}
+    \lstset{language=C}
+    \begin{lstlisting}
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h> // For fabs
+
+double triangle_area() {
+    double Ax = 0, Ay = 5;
+    double Bx = 3, By = 2;
+    double Cx = -1, Cy = 1;
+    // Area formula using determinant concept
+    double area = 0.5 * ((Ax - Cx)*(By - Ay) - 
+                         (Ax - Bx)*(Cy - Ay));
+    return fabs(area);
+}
+
+int main() {
+    double area = triangle_area();
+    printf("Area of triangle = %.4f\n", area);
+    return 0;
+}
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Python + C Code}
+    \lstset{language=Python}
+    \begin{lstlisting}
+import ctypes
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Load C shared library
+lib = ctypes.CDLL('./libtriangle.so')
+lib.triangle_area.restype = ctypes.c_double
+area = lib.triangle_area()
+print(f"Area of triangle = {area:.2f}")
+
+# Triangle vertices
+A = np.array([0, 5])
+B = np.array([3, 2])
+C = np.array([-1, 1])
+triangle = np.array([A, B, C, A])
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Python + C Code}
+    \lstset{language=Python}
+    \begin{lstlisting}
+# Plot triangle
+plt.plot(triangle[:,0], triangle[:,1], 'b-o', label='Triangle')
+plt.fill(triangle[:,0], triangle[:,1], color='cyan', alpha=0.3)
+
+# Plot lines
+x_vals = np.linspace(-3, 4, 400)
+plt.plot(x_vals, 4*x_vals+5, 'r--', label='$y=4x+5$')
+plt.plot(x_vals, 5-x_vals, 'g--', label='$y=5-x$')
+plt.plot(x_vals, (x_vals+5)/4, 'm--', label='$4y=x+5$')
+
+# Annotate vertices
+labels = ['A','B','C']
+coords = [A,B,C]
+for label, coord in zip(labels, coords):
+    plt.annotate(label, (coord[0], coord[1]), textcoords="offset points",
+                 xytext=(10, -10), ha='center', fontsize=12, color='black')
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Python + C Code}
+    \lstset{language=Python}
+    \begin{lstlisting}
+# Decorations
+plt.legend()
+plt.grid(True)
+plt.axis('equal')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title(f"Triangle Bounded by Lines, Area = {area:.2f}")
+plt.savefig("triangle_ctypes_with_lines.png", dpi=200)
+plt.show()
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Pure Python Code}
+    \lstset{language=Python}
+    \begin{lstlisting}
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Triangle vertices
+A = np.array([0, 5])
+B = np.array([3, 2])
+C = np.array([-1, 1])
+triangle = np.array([A, B, C, A])
+
+# Area calculation
+area = 0.5 * abs(np.linalg.det(np.column_stack((A-B, A-C))))
+print(f"Area of triangle = {area:.2f}")
+
+# Plot triangle
+plt.plot(triangle[:,0], triangle[:,1], 'b-', linewidth=2)
+plt.fill(triangle[:,0], triangle[:,1], color='cyan', alpha=0.3)
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Pure Python Code}
+    \lstset{language=Python}
+    \begin{lstlisting}
+# Highlight vertices with larger markers
+plt.scatter([A[0], B[0], C[0]], [A[1], B[1], C[1]], 
+            color='red', s=100, zorder=5, label='Vertices')
+
+# Annotate vertices
+labels = ['A','B','C']
+coords = [A,B,C]
+for label, coord in zip(labels, coords):
+    plt.annotate(label, (coord[0], coord[1]), textcoords="offset points",
+                 xytext=(10, 10), ha='center', fontsize=12, color='black', fontweight='bold')
+
+# Plot lines
+x_vals = np.linspace(-2, 4, 400)
+plt.plot(x_vals, 4*x_vals + 5, 'r--', linewidth=1.5)
+plt.plot(x_vals, 5 - x_vals, 'g--', linewidth=1.5)
+plt.plot(x_vals, (x_vals + 5)/4, 'm--', linewidth=1.5)
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Pure Python Code}
+    \lstset{language=Python}
+    \begin{lstlisting}
+# Annotate line equations near the triangle
+plt.text(-1.8, 5.2, '$y=4x+5$', color='r', fontsize=12, fontweight='bold')
+plt.text(2.1, 3.5, '$y=5-x$', color='g', fontsize=12, fontweight='bold')
+plt.text(0.5, 1.5, '$4y=x+5$', color='m', fontsize=12, fontweight='bold')
+
+# Zoom limits
+plt.xlim(-2, 4)
+plt.ylim(0, 6)
+
+# Decorations
+plt.grid(True)
+plt.axis('equal')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title(f"Triangle Bounded by Lines, Area = {area:.2f}")
+plt.legend()
+plt.savefig("triangle_points_lines.png", dpi=200)
+plt.show()
+
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}{Generated Plot}
+    \frametitle{Plot of the Bounded Region}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.9\linewidth]{figs/Figure_1.png}
+        \label{fig:placeholder}
+    \end{figure}
+\end{frame}
+
+\end{document}
