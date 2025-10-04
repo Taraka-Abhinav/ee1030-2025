@@ -36,12 +36,15 @@
 \usepackage{ifthen}
 \usepackage{lscape}
 
+% Custom command for bold matrices
+\newcommand{\mat}[1]{\mathbf{#1}}
+
 \begin{document}
 
 \bibliographystyle{IEEEtran}
 
-\title{4.6.4}
-\author{EE25BTECH11016 - Taraka Abhinav}
+\title{Complete Solution: Equation and Distance of Parallel Lines}
+\author{Gemini AI}
 {\let\newpage\relax\maketitle}
 
 \renewcommand{\thefigure}{\theenumi}
@@ -52,52 +55,84 @@
 \renewcommand{\thetable}{\theenumi}
 
 \textbf{Question}:\\
-Find the equation of a line passing through the point $\brak{2, 3, 2}$ and parallel to the line $\vec{r} = \brak{-2\hat{i} + 3\hat{j}} + \lambda\brak{2\hat{i} - 3\hat{j} + 6\hat{k}}$. Also, find the distance between these two lines. \hfill $\brak{12, 2018}$
+Find the equation of a line passing through the point $(2, 3, 2)$ and parallel to the line $\vec{r} = (-2\hat{i} + 3\hat{j}) + \lambda(2\hat{i} - 3\hat{j} + 6\hat{k})$. Also, find the distance between these two lines.
 \\
 
 \solution \\
+The problem is solved in two parts. All vectors are represented using the \verb|\myvec| command.
 
-\textbf{Part 1: Equation of the Parallel Line}\\
-This remains the same regardless of the method for finding the distance.
+\subsection*{Part 1: Equation of the Required Line}
+The vector equation of a line is $\vec{r} = \vec{a} + \mu\vec{b}$, where $\vec{a}$ is the position vector of a point on the line and $\vec{b}$ is the direction vector of the line.
+
+\begin{enumerate}
+    \item \textbf{Position Vector ($\vec{a}$):} The line passes through the point $(2, 3, 2)$. We can write its position vector as:
+    \begin{align}
+    \mat{a} = \myvec{2 \\ 3 \\ 2}
+    \end{align}
+    
+    \item \textbf{Direction Vector ($\vec{b}$):} The required line is parallel to the given line, so they share the same direction vector. From the given equation, the direction vector is:
+    \begin{align}
+    \mat{b} = \myvec{2 \\ -3 \\ 6}
+    \end{align}
+\end{enumerate}
+Combining these gives the equation of the required line:
 \begin{align}
-\vec{a}_2 = \myvec{2 \\ 3 \\ 2}, \quad \vec{b} = \myvec{2 \\ -3 \\ 6}
+\vec{r} = \myvec{2 \\ 3 \\ 2} + \mu \myvec{2 \\ -3 \\ 6}
 \end{align}
+\subsection*{Part 2: Distance Between the Lines}
+The distance is found by identifying points $\mat{P} = \mat{a} + p_1\mat{d}$ and $\mat{Q} = \mat{b} + p_2\mat{d}$ on each line such that the vector $\mat{Q}-\mat{P}$ is orthogonal to the direction $\mat{d}$.
+
+\subsubsection*{1. Define Vectors}
+The problem defines the two parallel lines. We can represent them with the following vectors:
 \begin{align}
-\implies \text{Line Equation is } \boxed{\vec{r} = \myvec{2 \\ 3 \\ 2} + \mu \myvec{2 \\ -3 \\ 6}}
+\mat{a} &= \myvec{-2 \\ 3 \\ 0} & & \text{(Point on Line 1)} \\
+\mat{b} &= \myvec{2 \\ 3 \\ 2} & & \text{(Point on Line 2)} \\
+\mat{d} &= \myvec{2 \\ -3 \\ 6} & & \text{(Common Direction)}
 \end{align}
-\textbf{Part 2: Distance using Least Squares Method}\\
-The distance is the magnitude of the error vector when projecting the connecting vector $\vec{w} = \vec{a}_2 - \vec{a}_1$ onto the direction vector $\vec{b}$.
-The vectors are:
+
+\subsubsection*{2. Solve for Parameters}
+The orthogonality condition is $\mat{d}^\top(\mat{Q}-\mat{P}) = 0$. Expanding this gives the equation for the parameters:
 \begin{align}
-\vec{a}_1 = \myvec{-2 \\ 3 \\ 0}, \quad \vec{w} = \vec{a}_2 - \vec{a}_1 = \myvec{4 \\ 0 \\ 2}
+(\mat{d}^\top\mat{d})(p_2-p_1) + \mat{d}^\top(\mat{b}-\mat{a}) = 0
 \end{align}
-The least squares solution for the projection scalar $t$ is found from the normal equation:
+We calculate the scalar products:
 \begin{align}
-(\vec{b}^T\vec{b})t = \vec{b}^T\vec{w}
+\mat{d}^\top\mat{d} &= \myvec{2 \\ -3 \\ 6}^\top \myvec{2 \\ -3 \\ 6} = 4 + 9 + 36 = 49 \\
+\mat{d}^\top(\mat{b}-\mat{a}) &= \myvec{2 \\ -3 \\ 6}^\top \left( \myvec{2 \\ 3 \\ 2} - \myvec{-2 \\ 3 \\ 0} \right) \nonumber \\
+&= \myvec{2 \\ -3 \\ 6}^\top \myvec{4 \\ 0 \\ 2} = 8 + 0 + 12 = 20
 \end{align}
-Calculating the dot products:
+Substituting these values back:
 \begin{align}
-\vec{b}^T\vec{b} &= \norm{\vec{b}}^2 = (2)^2 + (-3)^2 + (6)^2 = 49 \\
-\vec{b}^T\vec{w} &= (2)(4) + (-3)(0) + (6)(2) = 20
+49(p_2 - p_1) + 20 &= 0 \\
+p_2 - p_1 &= -\frac{20}{49} \\
+\implies p_1 - p_2 &= \frac{20}{49}
 \end{align}
-Solving for $t$:
+We need one pair of values that satisfy this. We can simply take $\mathbf{p_2 = 0}$, which gives $\mathbf{p_1 = 20/49}$.
+
+\subsubsection*{3. Calculate the Distance}
+Using these parameter values, we find the specific points $\mat{P}$ and $\mat{Q}$.
 \begin{align}
-49t = 20 \implies t = \frac{20}{49}
+\mat{P} &= \mat{a} + p_1\mat{d} = \myvec{-2 \\ 3 \\ 0} + \frac{20}{49}\myvec{2 \\ -3 \\ 6} = \myvec{-58/49 \\ 87/49 \\ 120/49} \\
+\mat{Q} &= \mat{b} + p_2\mat{d} = \myvec{2 \\ 3 \\ 2}
 \end{align}
-The shortest distance vector is the error vector, $\vec{d} = \vec{w} - t\vec{b}$.
+The vector connecting these points is:
 \begin{align}
-\vec{d} &= \myvec{4 \\ 0 \\ 2} - \frac{20}{49}\myvec{2 \\ -3 \\ 6} = \myvec{4 - 40/49 \\ 60/49 \\ 2 - 120/49} = \frac{1}{49}\myvec{156 \\ 60 \\ -22}
+\mat{P}-\mat{Q} = \myvec{-58/49 - 98/49 \\ 87/49 - 147/49 \\ 120/49 - 98/49} = \frac{1}{49}\myvec{-156 \\ -60 \\ 22}
 \end{align}
-The distance is the magnitude (norm) of this error vector:
+The distance is the norm of this vector, $||\mat{P}-\mat{Q}||$.
 \begin{align}
-d = \norm{\vec{d}} = \frac{1}{49}\sqrt{156^2 + 60^2 + (-22)^2} = \frac{\sqrt{28420}}{49} = \frac{14\sqrt{145}}{49}
+d^2 &= \left\|\frac{1}{49}\myvec{-156 \\ -60 \\ 22}\right\|^2 \nonumber \\
+&= \left(\frac{1}{49}\right)^2 \left( (-156)^2 + (-60)^2 + (22)^2 \right) \nonumber \\
+&= \frac{1}{2401} (24336 + 3600 + 484) = \frac{28420}{2401} = \frac{580}{49} \\
+d &= \sqrt{\frac{580}{49}} = \frac{\sqrt{4 \times 145}}{7}
 \end{align}
+The final distance is:
 \begin{align}
 \implies d = \boxed{\frac{2\sqrt{145}}{7}}
 \end{align}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1.1\linewidth]{figs/Figure_1.png}
+    \includegraphics[width=1\linewidth]{figs/Figure_1.png}
     \label{fig:placeholder}
 \end{figure}
 \end{document}
