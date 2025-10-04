@@ -1,0 +1,340 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+
+% ----- THEME AND PACKAGES FROM TEMPLATE -----
+\usetheme{Madrid}
+\usecolortheme{default}
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+\usepackage{mathtools}
+\usepackage{txfonts}
+\usepackage{tkz-euclide}
+\usepackage{listings}
+\usepackage{adjustbox}
+\usepackage{array}
+\usepackage{gensymb}
+\usepackage{tabularx}
+\usepackage{gvv}
+\usepackage{lmodern}
+\usepackage{circuitikz}
+\usepackage{tikz}
+\lstset{literate={·}{{$\cdot$}}1 {λ}{{$\lambda$}}1 {→}{{$\to$}}1}
+\usepackage{graphicx}
+\usepackage{multicol}
+\usepackage{tcolorbox}
+\tcbuselibrary{minted,breakable,xparse,skins}
+
+% ----- TEMPLATE SETTINGS -----
+\setbeamertemplate{page number in head/foot}[totalframenumber]
+
+\definecolor{bg}{gray}{0.95}
+\DeclareTCBListing{mintedbox}{O{}m!O{}}{%
+  breakable=true,
+  listing engine=minted,
+  listing only,
+  minted language=#2,
+  minted style=default,
+  minted options={%
+    linenos,
+    gobble=0,
+    breaklines=true,
+    breakafter=,,
+    fontsize=\small,
+    numbersep=8pt,
+    #1},
+  boxsep=0pt,
+  left skip=0pt,
+  right skip=0pt,
+  left=25pt,
+  right=0pt,
+  top=3pt,
+  bottom=3pt,
+  arc=5pt,
+  leftrule=0pt,
+  rightrule=0pt,
+  bottomrule=2pt,
+  toprule=2pt,
+  colback=bg,
+  colframe=orange!70,
+  enhanced,
+  overlay={%
+    \begin{tcbclipinterior}
+    \fill[orange!20!white] (frame.south west) rectangle ([xshift=20pt]frame.north west);
+    \end{tcbclipinterior}},
+  #3,
+}
+
+\lstset{
+    language=C,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    stringstyle=\color{orange},
+    commentstyle=\color{green!60!black},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    breaklines=true,
+    showstringspaces=false,
+}
+
+%------------------------------------------------------------
+%This block of code defines the information to appear in the
+%Title page
+\title %optional
+{4.13.21: Incentre of a Triangle}
+\date{October 4, 2025}
+
+\author 
+{Taraka Abhinav - EE25BTECH11016}
+%------------------------------------------------------------
+
+
+\begin{document}
+
+\frame{\titlepage}
+
+\begin{frame}{Question}
+The X coordinate of the incentre of the triangle that has the coordinates of mid points of its sides as (0, 1), (1, 1) and (1, 0) is: \hfill (2013)
+
+\begin{enumerate}
+    \item $2 + \sqrt{2}$
+    \item $2 - \sqrt{2}$
+    \item $1 + \sqrt{2}$
+    \item $1 - \sqrt{2}$
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Step 1: Finding the Vertices from Midpoints}
+Let the position vectors of the midpoints of sides $BC$, $AC$, and $AB$ be $\vec{D}$, $\vec{E}$, and $\vec{F}$ respectively.
+\begin{align}
+\vec{D} = \myvec{0 \\ 1}, \quad \vec{E} = \myvec{1 \\ 1}, \quad \vec{F} = \myvec{1 \\ 0}
+\end{align}
+
+The position vectors of the vertices of the triangle, $\vec{A}$, $\vec{B}$, and $\vec{C}$, can be found from the midpoint vectors.
+\begin{align}
+\vec{A} &= \vec{E} + \vec{F} - \vec{D} = \myvec{1 \\ 1} + \myvec{1 \\ 0} - \myvec{0 \\ 1} = \myvec{2 \\ 0} \\
+\vec{B} &= \vec{D} + \vec{F} - \vec{E} = \myvec{0 \\ 1} + \myvec{1 \\ 0} - \myvec{1 \\ 1} = \myvec{0 \\ 0} \\
+\vec{C} &= \vec{D} + \vec{E} - \vec{F} = \myvec{0 \\ 1} + \myvec{1 \\ 1} - \myvec{1 \\ 0} = \myvec{0 \\ 2}
+\end{align}
+
+Next, we find the lengths of the sides of $\triangle ABC$. Let $a$, $b$, and $c$ be the lengths of the sides opposite to vertices $A$, $B$, and $C$.
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Solution}
+\begin{align}
+a &= \norm{\vec{C} - \vec{B}} = \norm{\myvec{0 \\ 2}} = \sqrt{0^2 + 2^2} = 2 \\
+b &= \norm{\vec{A} - \vec{C}} = \norm{\myvec{2 \\ -2}} = \sqrt{2^2 + (-2)^2} = \sqrt{8} = 2\sqrt{2} \\
+c &= \norm{\vec{B} - \vec{A}} = \norm{\myvec{-2 \\ 0}} = \sqrt{(-2)^2 + 0^2} = 2
+\end{align}
+
+The position vector of the incentre, $\vec{I}$, is given by the formula:
+\begin{align}
+\vec{I} = \frac{a\vec{A} + b\vec{B} + c\vec{C}}{a+b+c}
+\end{align}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Solution}
+Substituting the vectors and side lengths:
+\begin{align}
+\vec{I} &= \frac{2\myvec{2 \\ 0} + 2\sqrt{2}\myvec{0 \\ 0} + 2\myvec{0 \\ 2}}{2 + 2\sqrt{2} + 2} \\
+    &= \frac{1}{4 + 2\sqrt{2}} \left( \myvec{4 \\ 0} + \myvec{0 \\ 0} + \myvec{0 \\ 4} \right) \\
+    &= \frac{1}{4 + 2\sqrt{2}} \myvec{4 \\ 4} = \myvec{\frac{4}{4 + 2\sqrt{2}} \\ \frac{4}{4 + 2\sqrt{2}}}
+\end{align}
+The x-coordinate of the incentre, $I_x$, is the first component of $\vec{I}$.
+\begin{align}
+I_x &= \frac{4}{4 + 2\sqrt{2}} = \frac{2}{2 + \sqrt{2}} \\
+    &= \frac{2(2 - \sqrt{2})}{(2 + \sqrt{2})(2 - \sqrt{2})} = \frac{2(2 - \sqrt{2})}{4-2} = 2 - \sqrt{2}
+\end{align}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{C Code - Verification}
+    \begin{lstlisting}
+#include <stdio.h>
+#include <math.h>
+
+typedef struct {
+    double x, y;
+} Point;
+
+Point make_point(double x, double y) {
+    Point p; p.x = x; p.y = y; return p;
+}
+
+double dist(Point p1, Point p2) {
+    return sqrt(pow(p1.x - p2.x,2) + pow(p1.y - p2.y,2));
+}
+
+Point find_incentre(Point A, Point B, Point C) {
+    double a = dist(B,C);
+    double b = dist(A,C);
+    double c = dist(A,B);
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{C Code - Verification}
+    \begin{lstlisting}
+    Point I;
+    I.x = (a*A.x + b*B.x + c*C.x) / (a+b+c);
+    I.y = (a*A.y + b*B.y + c*C.y) / (a+b+c);
+    return I;
+}
+
+int main() {
+    // Vertices derived from midpoints
+    Point A = make_point(2,0);
+    Point B = make_point(0,0);
+    Point C = make_point(0,2);
+
+    Point I = find_incentre(A,B,C);
+    printf("Numeric Incentre: (%.4f, %.4f)\n", I.x, I.y);
+    printf("Value of 2-sqrt(2) is approx %.4f\n", 2-sqrt(2));
+    return 0;
+}
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Python + C Code}
+    \begin{lstlisting}[language=Python]
+import ctypes
+import matplotlib.pyplot as plt
+
+# Define struct
+class Point(ctypes.Structure):
+    _fields_ = [("x", ctypes.c_double), ("y", ctypes.c_double)]
+
+lib = ctypes.CDLL("./incentre.so")
+lib.find_incentre.restype = Point
+lib.find_incentre.argtypes = [Point, Point, Point]
+
+# Midpoints
+D = Point(0,1)
+E = Point(1,1)
+F = Point(1,0)
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Python + C Code}
+    \begin{lstlisting}[language=Python]
+# Vertices
+A = Point(2,0)
+B = Point(0,0)
+C = Point(0,2)
+
+# Call C function
+I = lib.find_incentre(A,B,C)
+
+# Plot triangle
+plt.figure()
+plt.plot([A.x,B.x,C.x,A.x], [A.y,B.y,C.y,A.y], 'b-')
+
+points = {
+    "A(2,0)": A,
+    "B(0,0)": B,
+    "C(0,2)": C,
+    "D(0,1)": D,
+    "E(1,1)": E,
+    "F(1,0)": F
+}
+colors = ['red','green','blue','purple','brown','cyan']
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Python + C Code}
+    \begin{lstlisting}[language=Python]
+for (label,pt),col in zip(points.items(),colors):
+    plt.scatter(pt.x, pt.y, color=col)
+    plt.text(pt.x+0.1, pt.y+0.1, label, fontsize=9)
+
+# Incentre exact + numeric
+plt.scatter(I.x, I.y, color='orange')
+plt.text(I.x+0.1, I.y+0.1, "I(2-√2,2-√2)", color='orange', fontsize=9)
+
+plt.title("Triangle with Midpoints and Incentre (C + Python)")
+plt.grid(True)
+plt.axis("equal")
+plt.show()
+
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Pure Python Code}
+    \begin{lstlisting}[language=Python]
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Midpoints
+D = np.array([0,1])
+E = np.array([1,1])
+F = np.array([1,0])
+
+# Vertices using midpoint relations
+A = E + F - D   # (2,0)
+B = D + F - E   # (0,0)
+C = D + E - F   # (0,2)
+
+# Side lengths
+a = np.linalg.norm(C-B)
+b = np.linalg.norm(A-C)
+c = np.linalg.norm(A-B)
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Pure Python Code}
+    \begin{lstlisting}[language=Python]
+# Incentre (numeric)
+I = (a*A + b*B + c*C) / (a+b+c)
+
+# Plot triangle
+plt.figure()
+plt.plot([A[0],B[0],C[0],A[0]], [A[1],B[1],C[1],A[1]], 'b-')
+
+# Mark points with exact labels
+points = {
+    "A(2,0)": A,
+    "B(0,0)": B,
+    "C(0,2)": C,
+    "D(0,1)": D,
+    "E(1,1)": E,
+    "F(1,0)": F
+}
+colors = ['red','green','blue','purple','brown','cyan']
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Pure Python Code}
+    \begin{lstlisting}[language=Python]
+for (label,pt),col in zip(points.items(),colors):
+    plt.scatter(pt[0], pt[1], color=col)
+    plt.text(pt[0]+0.1, pt[1]+0.1, label, fontsize=9)
+
+# Incentre label in exact form
+plt.scatter(I[0], I[1], color='orange')
+plt.text(I[0]+0.1, I[1]+0.1, "I(2-√2,2-√2)", color='orange', fontsize=9)
+
+plt.title("Triangle with Midpoints and Incentre")
+plt.grid(True)
+plt.axis("equal")
+plt.show()
+
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}{Plot}
+    \frametitle{Plot of the Triangle and its Incentre}
+    \centering
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.9\linewidth]{figs/Figure_1.png}
+        \label{fig:placeholder}
+    \end{figure}
+\end{frame}
+
+\end{document}

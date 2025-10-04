@@ -1,0 +1,16 @@
+\frametitle{Pure Python Code}
+    \begin{lstlisting}[language=Python]
+for (label,pt),col in zip(points.items(),colors):
+    plt.scatter(pt[0], pt[1], color=col)
+    plt.text(pt[0]+0.1, pt[1]+0.1, label, fontsize=9)
+
+# Incentre label in exact form
+plt.scatter(I[0], I[1], color='orange')
+plt.text(I[0]+0.1, I[1]+0.1, "I(2-√2,2-√2)", color='orange', fontsize=9)
+
+plt.title("Triangle with Midpoints and Incentre")
+plt.grid(True)
+plt.axis("equal")
+plt.show()
+
+    \end{lstlisting}

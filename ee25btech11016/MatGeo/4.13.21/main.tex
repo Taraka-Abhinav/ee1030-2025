@@ -1,0 +1,104 @@
+\let\negmedspace\undefined
+\let\negthickspace\undefined
+\documentclass[journal]{IEEEtran}
+\usepackage[a5paper, margin=10mm, onecolumn]{geometry}
+\usepackage{tfrupee}
+
+\setlength{\headheight}{1cm}
+\setlength{\headsep}{0mm}
+
+\usepackage{gvv-book}
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage{txfonts}
+\usepackage{listings}
+\usepackage{enumitem}
+\usepackage{mathtools}
+\usepackage{gensymb}
+\usepackage{comment}
+\usepackage[breaklinks=true]{hyperref}
+\usepackage{tkz-euclide}
+\usepackage{listings}
+\usepackage{gvv}
+\usepackage{tikz}
+\def\inputGnumericTable{}
+\usepackage[latin1]{inputenc}
+\usepackage{color}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{calc}
+\usepackage{multirow}
+\usepackage{hhline}
+\usepackage{ifthen}
+\usepackage{lscape}
+
+\begin{document}
+
+\bibliographystyle{IEEEtran}
+
+\title{4.13.21}
+\author{Taraka Abhinav - EE25BTECH11016}
+{\let\newpage\relax\maketitle}
+
+\renewcommand{\thefigure}{\theenumi}
+\renewcommand{\thetable}{\theenumi}
+\setlength{\intextsep}{10pt}
+
+\numberwithin{figure}{enumi}
+\renewcommand{\thetable}{\theenumi}
+
+\textbf{Question}:\\
+The X coordinate of the incentre of the triangle that has the coordinates of mid points of its sides as $\brak{0, 1}$, $\brak{1, 1}$ and $\brak{1, 0}$ is \hfill (2013)
+\\
+
+\solution \\
+
+Let the position vectors of the midpoints of sides $BC$, $AC$, and $AB$ be $\vec{D}$, $\vec{E}$, and $\vec{F}$ respectively.
+\begin{align}
+\vec{D} = \myvec{0 \\ 1}, \quad \vec{E} = \myvec{1 \\ 1}, \quad \vec{F} = \myvec{1 \\ 0}
+\end{align}
+
+The position vectors of the vertices of the triangle, $\vec{A}$, $\vec{B}$, and $\vec{C}$, can be found from the midpoint vectors.
+\begin{align}
+\vec{A} &= \vec{E} + \vec{F} - \vec{D} = \myvec{1 \\ 1} + \myvec{1 \\ 0} - \myvec{0 \\ 1} = \myvec{2 \\ 0} \\
+\vec{B} &= \vec{D} + \vec{F} - \vec{E} = \myvec{0 \\ 1} + \myvec{1 \\ 0} - \myvec{1 \\ 1} = \myvec{0 \\ 0} \\
+\vec{C} &= \vec{D} + \vec{E} - \vec{F} = \myvec{0 \\ 1} + \myvec{1 \\ 1} - \myvec{1 \\ 0} = \myvec{0 \\ 2}
+\end{align}
+
+Next, we find the lengths of the sides of $\triangle ABC$. Let $a$, $b$, and $c$ be the lengths of the sides opposite to vertices $A$, $B$, and $C$.
+\begin{align}
+a &= \norm{\vec{C} - \vec{B}} = \norm{\myvec{0 \\ 2}} = \sqrt{0^2 + 2^2} = 2 \\
+b &= \norm{\vec{A} - \vec{C}} = \norm{\myvec{2 \\ -2}} = \sqrt{2^2 + (-2)^2} = \sqrt{8} = 2\sqrt{2} \\
+c &= \norm{\vec{B} - \vec{A}} = \norm{\myvec{-2 \\ 0}} = \sqrt{(-2)^2 + 0^2} = 2
+\end{align}
+
+The position vector of the incentre, $\vec{I}$, is given by the formula:
+\begin{align}
+\vec{I} = \frac{a\vec{A} + b\vec{B} + c\vec{C}}{a+b+c}
+\end{align}
+
+Substituting the vectors and side lengths:
+\begin{align}
+\vec{I} &= \frac{2\myvec{2 \\ 0} + 2\sqrt{2}\myvec{0 \\ 0} + 2\myvec{0 \\ 2}}{2 + 2\sqrt{2} + 2} \\
+    &= \frac{1}{4 + 2\sqrt{2}} \left( \myvec{4 \\ 0} + \myvec{0 \\ 0} + \myvec{0 \\ 4} \right) \\
+    &= \frac{1}{4 + 2\sqrt{2}} \myvec{4 \\ 4} = \myvec{\frac{4}{4 + 2\sqrt{2}} \\ \frac{4}{4 + 2\sqrt{2}}}
+\end{align}
+The x-coordinate of the incentre, $I_x$, is the first component of $\vec{I}$.
+\begin{align}
+I_x &= \frac{4}{4 + 2\sqrt{2}} = \frac{2}{2 + \sqrt{2}} \\
+    &= \frac{2(2 - \sqrt{2})}{(2 + \sqrt{2})(2 - \sqrt{2})} = \frac{2(2 - \sqrt{2})}{4-2} = 2 - \sqrt{2}
+\end{align}
+
+\begin{align}
+\implies I_x = 2 - \sqrt{2}
+\end{align}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{figs/Figure_1.png}
+    \label{fig:placeholder}
+\end{figure}
+\end{document}

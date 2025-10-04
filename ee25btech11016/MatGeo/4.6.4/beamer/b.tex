@@ -59,9 +59,8 @@
 
 \frame{\titlepage}
 
-\begin{frame}{Question}
-Find the equation of a line passing through the point $(2, 3, 2)$ and parallel to the line:
-\[ \vec{r} = \myvec{-2 \\ 3 \\ 0} + \lambda\myvec{2 \\ -3 \\ 6} \]
+\begin{frame}{Question}Find the equation of a line passing through the point $(2, 3, 2)$ and parallel to the line:
+\[$\vec{r} = (-2\hat{i} + 3\hat{j}) + \lambda(2\hat{i} - 3\hat{j} + 6\hat{k})$.\]
 Also, find the distance between these two lines.
 \end{frame}
 
@@ -83,55 +82,34 @@ The equation of the required line is:
 \end{frame}
 
 \begin{frame}{Step 2: Distance via Least Squares}
-Let $\Delta\vec{a} = \vec{a_2} - \vec{a_1}$. We want to find the minimum of the squared distance function $f(\nu)$:
-\begin{align*}
-    f(\nu) &= \|\Delta\vec{a} - \nu\vec{b}\|^2 \\
-           &= (\Delta\vec{a} - \nu\vec{b})^T(\Delta\vec{a} - \nu\vec{b}) \\
-           &= \Delta\vec{a}^T\Delta\vec{a} - 2\nu(\Delta\vec{a}^T\vec{b}) + \nu^2(\vec{b}^T\vec{b})
-\end{align*}
-To find the minimum, we set the derivative with respect to $\nu$ to zero.
-\end{frame}
-
-\begin{frame}{Step 3: Minimizing the Distance}
-Taking the derivative of $f(\nu)$ and setting it to zero:
+The distance is the magnitude of the error vector when projecting the connecting vector $\vec{w} = \vec{a}_2 - \vec{a}_1$ onto the direction vector $\vec{b}$.
+The vectors are:
 \begin{align}
-    \frac{df}{d\nu} = -2(\Delta\vec{a}^T\vec{b}) + 2\nu(\vec{b}^T\vec{b}) = 0
+\vec{a}_1 = \myvec{-2 \\ 3 \\ 0}, \quad \vec{w} = \vec{a}_2 - \vec{a}_1 = \myvec{4 \\ 0 \\ 2}
 \end{align}
-Solving for the optimal value of $\nu$:
+The least squares solution for the projection scalar $t$ is found from the normal equation:
 \begin{align}
-    \nu_{opt} = \frac{\Delta\vec{a}^T\vec{b}}{\vec{b}^T\vec{b}}
+(\vec{b}^T\vec{b})t = \vec{b}^T\vec{w}
 \end{align}
-Substituting this back into the distance function gives the minimum distance squared.
-\end{frame}
-
-\begin{frame}{Step 4: Final Distance Formula}
-The minimum squared distance is:
+Calculating the dot products:
 \begin{align}
-    d^2 = \frac{(\Delta\vec{a}^T\Delta\vec{a})(\vec{b}^T\vec{b}) - (\Delta\vec{a}^T\vec{b})^2}{\vec{b}^T\vec{b}}
-\end{align}
-Using Lagrange's identity, the numerator simplifies to $\|\Delta\vec{a} \times \vec{b}\|^2$.
-\begin{align}
-    d^2 = \frac{\|\Delta\vec{a} \times \vec{b}\|^2}{\|\vec{b}\|^2} \implies d = \frac{\|\Delta\vec{a} \times \vec{b}\|}{\|\vec{b}\|}
+\vec{b}^T\vec{b} &= \norm{\vec{b}}^2 = (2)^2 + (-3)^2 + (6)^2 = 49 \\
+\vec{b}^T\vec{w} &= (2)(4) + (-3)(0) + (6)(2) = 20
 \end{align}
 \end{frame}
 
-\begin{frame}{Step 5: Numerical Calculation}
-We substitute the numerical values:
+\begin{frame}{Step 2: Distance via Least Squares}
+Solving for $t$:
 \begin{align}
-    \Delta\vec{a} = \myvec{4 \\ 0 \\ 2} \quad , \quad \vec{b} = \myvec{2 \\ -3 \\ 6}
+49t = 20 \implies t = \frac{20}{49}
 \end{align}
-The cross product is:
+The shortest distance vector is the error vector, $\vec{d} = \vec{w} - t\vec{b}$.
 \begin{align}
-    \Delta\vec{a} \times \vec{b} = \myvec{6 \\ -20 \\ -12}
+\vec{d} &= \myvec{4 \\ 0 \\ 2} - \frac{20}{49}\myvec{2 \\ -3 \\ 6} = \myvec{4 - 40/49 \\ 60/49 \\ 2 - 120/49} = \frac{1}{49}\myvec{156 \\ 60 \\ -22}
 \end{align}
-The norms are:
+The distance is the magnitude (norm) of this error vector:
 \begin{align}
-    \|\Delta\vec{a} \times \vec{b}\| &= \sqrt{6^2 + (-20)^2 + (-12)^2} = \sqrt{580} \\
-    \|\vec{b}\| &= \sqrt{2^2 + (-3)^2 + 6^2} = 7
-\end{align}
-The distance is:
-\begin{align}
-    d = \frac{\sqrt{580}}{7} = \frac{2\sqrt{145}}{7}
+d = \norm{\vec{d}} = \frac{1}{49}\sqrt{156^2 + 60^2 + (-22)^2} = \frac{\sqrt{28420}}{49} = \frac{14\sqrt{145}}{49}
 \end{align}
 \end{frame}
 

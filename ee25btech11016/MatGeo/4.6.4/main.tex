@@ -2,14 +2,12 @@
 \let\negthickspace\undefined
 \documentclass[journal]{IEEEtran}
 \usepackage[a5paper, margin=10mm, onecolumn]{geometry}
-%\usepackage{lmodern} % Ensure lmodern is loaded for pdflatex
-\usepackage{tfrupee} % Include tfrupee package
+\usepackage{tfrupee}
 
-\setlength{\headheight}{1cm} % Set the height of the header box
-\setlength{\headsep}{0mm}     % Set the distance between the header box and the top of the text
+\setlength{\headheight}{1cm}
+\setlength{\headsep}{0mm}
 
 \usepackage{gvv-book}
-\usepackage{gvv}
 \usepackage{cite}
 \usepackage{amsmath,amssymb,amsfonts,amsthm}
 \usepackage{algorithmic}
@@ -25,7 +23,8 @@
 \usepackage[breaklinks=true]{hyperref}
 \usepackage{tkz-euclide}
 \usepackage{listings}
-% \usepackage{gvv}
+\usepackage{gvv}
+\usepackage{tikz}
 \def\inputGnumericTable{}
 \usepackage[latin1]{inputenc}
 \usepackage{color}
@@ -36,87 +35,69 @@
 \usepackage{hhline}
 \usepackage{ifthen}
 \usepackage{lscape}
-\usepackage{circuitikz}
-\tikzstyle{block} = [rectangle, draw, fill=blue!20, 
-    text width=4em, text centered, rounded corners, minimum height=3em]
-\tikzstyle{sum} = [draw, fill=blue!10, circle, minimum size=1cm, node distance=1.5cm]
-\tikzstyle{input} = [coordinate]
-\tikzstyle{output} = [coordinate]
-
 
 \begin{document}
 
 \bibliographystyle{IEEEtran}
-\vspace{3cm}
 
 \title{4.6.4}
-\author{Taraka Abhinav - EE25BTECH11016}
-\maketitle
+\author{EE25BTECH11016 - Taraka Abhinav}
 {\let\newpage\relax\maketitle}
 
 \renewcommand{\thefigure}{\theenumi}
 \renewcommand{\thetable}{\theenumi}
-\setlength{\intextsep}{10pt} % Space between text and floats
+\setlength{\intextsep}{10pt}
 
-
-\numberwithin{equation}{enumi}
 \numberwithin{figure}{enumi}
 \renewcommand{\thetable}{\theenumi}
 
 \textbf{Question}:\\
-Find the equation of a line passing through the point $(2, 3, 2)$ and parallel to the line $\vec{r} = (-2\hat{i} + 3\hat{j}) + \lambda(2\hat{i} - 3\hat{j} + 6\hat{k})$. Also, find the distance between these two lines.
+Find the equation of a line passing through the point $\brak{2, 3, 2}$ and parallel to the line $\vec{r} = \brak{-2\hat{i} + 3\hat{j}} + \lambda\brak{2\hat{i} - 3\hat{j} + 6\hat{k}}$. Also, find the distance between these two lines. \hfill $\brak{12, 2018}$
+\\
 
 \solution \\
 
-\textbf{1. Equation of the Line}\\
-The equation of the line passing through point $\vec{a_2}$ parallel to vector $\vec{b}$ is:
+\textbf{Part 1: Equation of the Parallel Line}\\
+This remains the same regardless of the method for finding the distance.
 \begin{align}
-    \vec{r} = \vec{a_2} + \mu\vec{b} = \myvec{2 \\ 3 \\ 2} + \mu\myvec{2 \\ -3 \\ 6}
-\end{align}
-
-\textbf{2. Distance Between Lines using Least Squares}\\
-Let $\Delta\vec{a} = \vec{a_2} - \vec{a_1}$. The squared distance between the lines is the minimum of the function:
-\begin{align}
-    f(\nu) = \|\Delta\vec{a} - \nu\vec{b}\|^2 = (\Delta\vec{a} - \nu\vec{b})^T(\Delta\vec{a} - \nu\vec{b}) \nonumber \\
-    = \Delta\vec{a}^T\Delta\vec{a} - 2\nu(\Delta\vec{a}^T\vec{b}) + \nu^2(\vec{b}^T\vec{b})
-\end{align}
-To find the minimum, we set the derivative to zero:
-\begin{align}
-    \frac{df}{d\nu} = -2(\Delta\vec{a}^T\vec{b}) + 2\nu(\vec{b}^T\vec{b}) = 0 \implies \nu_{opt} = \frac{\Delta\vec{a}^T\vec{b}}{\vec{b}^T\vec{b}}
-\end{align}
-Substituting $\nu_{opt}$ back gives the minimum squared distance:
-\begin{align}
-    d^2 = \frac{(\Delta\vec{a}^T\Delta\vec{a})(\vec{b}^T\vec{b}) - (\Delta\vec{a}^T\vec{b})^2}{\vec{b}^T\vec{b}}
-\end{align}
-By Lagrange's identity, the numerator is $\|\Delta\vec{a} \times \vec{b}\|^2$. This gives the distance formula:
-\begin{align}
-    d = \frac{\|\Delta\vec{a} \times \vec{b}\|}{\|\vec{b}\|}
-\end{align}
-The numerical values are:
-\begin{align}
-    \vec{a_1} = \myvec{-2 \\ 3 \\ 0}, \quad \vec{a_2} = \myvec{2 \\ 3 \\ 2}, \quad \vec{b} = \myvec{2 \\ -3 \\ 6}
+\vec{a}_2 = \myvec{2 \\ 3 \\ 2}, \quad \vec{b} = \myvec{2 \\ -3 \\ 6}
 \end{align}
 \begin{align}
-    \Delta\vec{a} = \vec{a_2} - \vec{a_1} = \myvec{4 \\ 0 \\ 2}
+\implies \text{Line Equation is } \boxed{\vec{r} = \myvec{2 \\ 3 \\ 2} + \mu \myvec{2 \\ -3 \\ 6}}
 \end{align}
-The cross product is:
+\textbf{Part 2: Distance using Least Squares Method}\\
+The distance is the magnitude of the error vector when projecting the connecting vector $\vec{w} = \vec{a}_2 - \vec{a}_1$ onto the direction vector $\vec{b}$.
+The vectors are:
 \begin{align}
-    \Delta\vec{a} \times \vec{b} = \myvec{4 \\ 0 \\ 2} \times \myvec{2 \\ -3 \\ 6} = \myvec{6 \\ -20 \\ -12}
+\vec{a}_1 = \myvec{-2 \\ 3 \\ 0}, \quad \vec{w} = \vec{a}_2 - \vec{a}_1 = \myvec{4 \\ 0 \\ 2}
 \end{align}
-The norms are:
+The least squares solution for the projection scalar $t$ is found from the normal equation:
 \begin{align}
-    \|\Delta\vec{a} \times \vec{b}\| &= \sqrt{6^2 + (-20)^2 + (-12)^2} = \sqrt{580} \\
-    \|\vec{b}\| &= \sqrt{2^2 + (-3)^2 + 6^2} = 7
+(\vec{b}^T\vec{b})t = \vec{b}^T\vec{w}
 \end{align}
-The distance is:
+Calculating the dot products:
 \begin{align}
-    d = \frac{\sqrt{580}}{7} = \frac{2\sqrt{145}}{7}
+\vec{b}^T\vec{b} &= \norm{\vec{b}}^2 = (2)^2 + (-3)^2 + (6)^2 = 49 \\
+\vec{b}^T\vec{w} &= (2)(4) + (-3)(0) + (6)(2) = 20
 \end{align}
-
+Solving for $t$:
+\begin{align}
+49t = 20 \implies t = \frac{20}{49}
+\end{align}
+The shortest distance vector is the error vector, $\vec{d} = \vec{w} - t\vec{b}$.
+\begin{align}
+\vec{d} &= \myvec{4 \\ 0 \\ 2} - \frac{20}{49}\myvec{2 \\ -3 \\ 6} = \myvec{4 - 40/49 \\ 60/49 \\ 2 - 120/49} = \frac{1}{49}\myvec{156 \\ 60 \\ -22}
+\end{align}
+The distance is the magnitude (norm) of this error vector:
+\begin{align}
+d = \norm{\vec{d}} = \frac{1}{49}\sqrt{156^2 + 60^2 + (-22)^2} = \frac{\sqrt{28420}}{49} = \frac{14\sqrt{145}}{49}
+\end{align}
+\begin{align}
+\implies d = \boxed{\frac{2\sqrt{145}}{7}}
+\end{align}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.9\linewidth]{figs/Figure_1.png}
+    \includegraphics[width=1.1\linewidth]{figs/Figure_1.png}
     \label{fig:placeholder}
 \end{figure}
-
 \end{document}
