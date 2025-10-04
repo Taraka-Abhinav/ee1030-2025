@@ -1,0 +1,268 @@
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+
+\usetheme{Madrid}
+\usecolortheme{default}
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+\usepackage{mathtools}
+\usepackage{txfonts}
+\usepackage{tkz-euclide}
+\usepackage{listings}
+\usepackage{adjustbox}
+\usepackage{array}
+\usepackage{gensymb}
+\usepackage{tabularx}
+\usepackage{gvv}
+\usepackage{lmodern}
+\usepackage{circuitikz}
+\usepackage{tikz}
+\lstset{literate={·}{{$\cdot$}}1 {λ}{{$\lambda$}}1 {→}{{$\to$}}1}
+\usepackage{graphicx}
+
+\setbeamertemplate{page number in head/foot}[totalframenumber]
+
+\usepackage{tcolorbox}
+\tcbuselibrary{minted,breakable,xparse,skins}
+
+
+
+\definecolor{bg}{gray}{0.95}
+\DeclareTCBListing{mintedbox}{O{}m!O{}}{%
+  breakable=true,
+  listing engine=minted,
+  listing only,
+  minted language=#2,
+  minted style=default,
+  minted options={%
+    linenos,
+    gobble=0,
+    breaklines=true,
+    breakafter=,,
+    fontsize=\small,
+    numbersep=8pt,
+    #1},
+  boxsep=0pt,
+  left skip=0pt,
+  right skip=0pt,
+  left=25pt,
+  right=0pt,
+  top=3pt,
+  bottom=3pt,
+  arc=5pt,
+  leftrule=0pt,
+  rightrule=0pt,
+  bottomrule=2pt,
+  toprule=2pt,
+  colback=bg,
+  colframe=orange!70,
+  enhanced,
+  overlay={%
+    \begin{tcbclipinterior}
+    \fill[orange!20!white] (frame.south west) rectangle ([xshift=20pt]frame.north west);
+    \end{tcbclipinterior}},
+  #3,
+}
+\lstset{
+    language=C,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    stringstyle=\color{orange},
+    commentstyle=\color{green!60!black},
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    breaklines=true,
+    showstringspaces=false,
+}
+
+\title{5.2.19}
+\date{October 4, 2025}
+\author{Taraka Abhinav - EE25BTECH11016}
+
+\begin{document}
+
+\frame{\titlepage}
+\begin{frame}{Question}
+Solve the system of equations:
+\begin{align}
+x + y &= 14 \\
+x - y &= 4
+\end{align}
+\end{frame}
+
+\begin{frame}{Line Representation}
+The equation of a line is
+\begin{align}
+\vec{n^T}\vec{x} = c
+\end{align}
+
+Line L1:
+\begin{align}
+\myvec{1 & 1}\myvec{x \\ y}=14
+\end{align}
+Line L2:
+\begin{align}
+\myvec{1 & -1}\myvec{x \\ y}=4
+\end{align}
+\end{frame}
+\begin{frame}{Matrix Form}
+These can be combined into the matrix form $A\vec{x}=\vec{b}$:
+\begin{align}
+\myvec{1 & 1 \\ 1 & -1}\myvec{x \\ y} = \myvec{14 \\ 4}
+\end{align}
+
+The following augmented matrix can be solved by Gaussian elimination 
+\begin{align}
+\augvec{2}{1}{1 & 1 & 14 \\ 1 & -1 & 4} 
+\xleftrightarrow{R_2 \leftarrow R_2 - R_1} 
+\augvec{2}{1}{1 & 1 & 14 \\ 0 & -2 & -10}
+\end{align}
+\end{frame}
+
+\begin{frame}{Reduced Equations and Solution}
+The matrix is in row echelon form with two non-zero rows (Rank = 2). We can use back substitution. The second row gives:
+\begin{align}
+-2y = -10 \implies y = 5
+\end{align}
+Substituting $y=5$ into the first row equation, $x+y=14$:
+\begin{align}
+x + 5 = 14 \implies x = 9
+\end{align}
+\end{frame}
+
+\begin{frame}{Final Solution}
+The unique solution is:
+\begin{align}
+\myvec{x \\ y} = \myvec{9 \\ 5}
+\end{align}
+
+\textbf{Conclusion:} 
+The system has a \textbf{unique solution}.
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{C Code}
+    \begin{lstlisting}
+#include <stdio.h>
+
+typedef struct {
+    double x, y;
+} Point;
+
+Point solve_linear_system() {
+    // Solving manually for the given system
+    Point p;
+    // x + y = 14
+    // x - y = 4
+    p.x = (14 + 4)/2; // 9
+    p.y = 14 - p.x;   // 5
+    return p;
+}
+
+int main() {
+    Point P = solve_linear_system();
+    printf("Intersection Point: P(%g, %g)\n", P.x, P.y);
+    return 0;
+}
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Python + C}
+    \begin{lstlisting}
+    import ctypes
+import numpy as np
+import matplotlib.pyplot as plt
+
+class Point(ctypes.Structure):
+    _fields_ = [("x", ctypes.c_double), ("y", ctypes.c_double)]
+
+lib = ctypes.CDLL("./solve_linear.so")
+lib.solve_linear_system.restype = Point
+
+P = lib.solve_linear_system()
+
+# Plotting
+x_vals = np.linspace(0, 15, 300)
+y_L = 14 - x_vals
+y_K = x_vals - 4
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Python + C}
+    \begin{lstlisting}
+plt.figure()
+plt.plot(x_vals, y_L, label='L: x+y=14')
+plt.plot(x_vals, y_K, label='K: x-y=4')
+
+plt.scatter(P.x, P.y, color='red')
+plt.text(P.x+0.3, P.y+0.3, f'P({int(P.x)},{int(P.y)})', color='red')
+
+plt.xlim(0,15)
+plt.ylim(0,15)
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title('Solution of Linear System (C + Python)')
+plt.grid(True)
+plt.legend()
+plt.show()
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Python Code}
+    \begin{lstlisting}
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Coefficients for lines
+# Line L: x + y = 14
+# Line K: x - y = 4
+
+# Define x range for plotting
+x_vals = np.linspace(0, 15, 300)
+
+# Line L: y = 14 - x
+y_L = 14 - x_vals
+
+# Line K: y = x - 4
+y_K = x_vals - 4
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]
+    \frametitle{Python Code}
+    \begin{lstlisting}
+# Intersection point (solving manually or using numpy)
+A = np.array([[1, 1], [1, -1]])
+b = np.array([14, 4])
+sol = np.linalg.solve(A, b)
+x_int, y_int = sol
+
+# Plot lines
+plt.figure()
+plt.plot(x_vals, y_L, label='L: x+y=14')
+plt.plot(x_vals, y_K, label='K: x-y=4')
+
+# Mark intersection
+plt.scatter(x_int, y_int, color='red')
+plt.text(x_int+0.3, y_int+0.3, f'P({int(x_int)},{int(y_int)})', color='red')
+
+plt.xlim(0,15)
+plt.ylim(0,15)
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title('Solution of Linear System')
+plt.grid(True)
+plt.legend()
+plt.show()
+    \end{lstlisting}
+\end{frame}
+\begin{frame}{Plot}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[height=0.8\textheight, keepaspectratio]{figs/Figure_1.png}
+    \label{figure_1}
+\end{figure}
+\end{frame}
+\end{document}
